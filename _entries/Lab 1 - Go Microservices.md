@@ -2,7 +2,7 @@
 
 Now that you have your environment provisioned and the prerequisites fulfilled, it is time to start working on the labs.
 
-## 2.1 Application Overview
+## Task 2.1 Application Overview
 
 You will be deploying a ratings application on Azure Red Hat OpenShift.
 
@@ -22,7 +22,7 @@ Once you're done, you'll have an experience similar to the below.
 ![Application](../media/app-overview-2.png)
 ![Application](../media/app-overview-3.png)
 
-## 2.2 Connect to the cluster
+## Task 2.2 Connect to the cluster
 
 You can log into the cluster using the `kubeadmin` user.  
 
@@ -48,7 +48,7 @@ You can log into the cluster using the `kubeadmin` user.
 
 1. Save these secrets, you are going to use them to connect to the Web Portal
 
-## 2.3 Create Project
+## Task 2.3 Create Project
 
 ### Login to the web console
 
@@ -70,18 +70,18 @@ Each Azure Red Hat OpenShift cluster has a public hostname that hosts the OpenSh
 
 > **Note** Make sure you complete the [prerequisites](#prereq) to install the OpenShift CLI on the Azure Cloud Shell.
 
-Once you're logged into the Web Console, click on the username on the top right, then click **Copy login command**.
+1. Once you're logged into the Web Console, click on the username on the top right, then click **Copy login command**.
 
-![Copy login command](../media/login-command.png)
+   ![Copy login command](../media/reahat2.png)
 
-On the following page click on **Display Token** and copy the ```oc login``` line.
+1. On the following page click on **Display Token** and copy the ```oc login``` line.
 
-![Display Token Link](../media/oc-display-token-link.png)
-![Copy Login Token](../media/oc-copy-login-token.png)
+    ![Copy login command](../media/reahat3.png)
+    ![Copy login command](../media/reahat4.png)
 
-Open the [Azure Cloud Shell](https://shell.azure.com) and paste the login command. You should be able to connect to the cluster.
+1. Open the [Azure Cloud Shell](https://shell.azure.com) and paste the login command. You should be able to connect to the cluster.
 
-![Login through the cloud shell](../media/oc-login-cloudshell.png)
+   ![Login through the cloud shell](../media/oc-login-cloudshell.png)
 
 ### Create a project
 
