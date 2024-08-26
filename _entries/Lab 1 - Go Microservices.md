@@ -53,18 +53,18 @@ You can log into the cluster using the `kubeadmin` user.
 ### Login to the web console
 
 Each Azure Red Hat OpenShift cluster has a public hostname that hosts the OpenShift Web Console.
+ 
+1. You can use command `az aro list` to list the clusters in your current Azure subscription.
 
-You can use command `az aro list` to list the clusters in your current Azure subscription.
+    ```sh
+    az aro list -o table
+    ```
 
-```sh
-az aro list -o table
-```
+1. The cluster web console's URL will be listed. Open that link in new browser tab and login with the `kubeadmin` user and password retrieved earlier.
 
-The cluster web console's URL will be listed. Open that link in new browser tab and login with the `kubeadmin` user and password retrieved earlier.
+1. After logging in, you should be able to see the Azure Red Hat OpenShift Web Console.
 
-After logging in, you should be able to see the Azure Red Hat OpenShift Web Console.
-
-![Azure Red Hat OpenShift Web Console](../media/openshift-webconsole.png)
+   ![Azure Red Hat OpenShift Web Console](../media/openshift-webconsole.png)
 
 ### Retrieve the login command and token
 
