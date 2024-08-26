@@ -42,25 +42,28 @@ You'll be doing the majority of the labs using the OpenShift CLI, but you can al
 
 #### Azure Cloud Shell
 
-You can use the Azure Cloud Shell accessible at <https://shell.azure.com> once you login with an Azure subscription.
+1. In the Azure portal, open the **Azure Cloud Shell** by clicking on the icon in the top right of the Azure Portal.
 
-Head over to <https://shell.azure.com> and sign in with your Azure Subscription details.
+    ![Image](./media/cloudshell.png)
 
-Select **Bash** as your shell.
+1. When prompted to select either **Bash** or **PowerShell**, select **PowerShell**. 
 
-![Select Bash](../media/cloudshell/0-bash.png)
+    >**Did you know?**  If you mostly work with Linux systems, Bash (CLI) feels more familiar. If you mostly work with Windows systems, Azure PowerShell feels more familiar. 
 
-Select **Show advanced settings**
+1. On the **You have no storage mounted** screen select **Mount Storage Account**, select the storage account subscription from drop down and click on **Apply**
 
-![Select show advanced settings](../media/cloudshell/1-mountstorage-advanced.png)
+1. On mount storage account page, select **I want to create a storage account**. click on Next.
 
-Set the **Storage account** and **File share** names to your resource group name (all lowercase, without any special characters). Leave other settings unchanged, then hit **Create storage**
+1. Provide the below details to create the storage account and click on **Create**.
 
-![Azure Cloud Shell](../media/cloudshell/2-storageaccount-fileshare.png)
+    >**Note:** As you work with the Cloud Shell a storage account and file share is required. 
 
-You should now have access to the Azure Cloud Shell
-
-![Set the storage account and fileshare names](../media/cloudshell/3-cloudshell.png)
+    | Settings | Values |
+    |  -- | -- |
+    | Resource Group | **storage-<inject key="DeploymentID" enableCopy="false" />** |
+    | Storage account (Create new) | **str<inject key="DeploymentID" enableCopy="false" />** |
+    | Region | **<inject key="Region" enableCopy="false" />** |
+    | File share (Create new) | **none** |
 
 
 #### OpenShift CLI (oc)
