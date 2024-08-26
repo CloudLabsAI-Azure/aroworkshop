@@ -128,29 +128,29 @@ Each Azure Red Hat OpenShift cluster has a public hostname that hosts the OpenSh
 
 ### Verify if the mongoDB pod was created successfully
 
-Run the `oc get all` command to view the status of the new application and verify if the deployment of the mongoDB template was successful.
+1. Run the following command to view the status of the new application and verify if the deployment of the mongoDB template was successful.
 
-```sh
-oc get all
-```
+    ```sh
+    oc get all
+    ```
 
-![oc status](../media/oc-status-mongodb.png)
+   ![Copy login command](../media/redhat8.png)
 
 ### Retrieve mongoDB service hostname
 
-Find the mongoDB service.
+1. Run the following command to find the mongoDB service.
 
-```sh
-oc get svc mongodb
-```
+    ```sh
+    oc get svc mongodb
+    ```
 
-![oc get svc](../media/oc-get-svc-mongo.png)
+   ![oc get svc](../media/oc-get-svc-mongo.png)
 
-The service will be accessible at the following DNS name: `mongodb.workshop.svc.cluster.local` which is formed of `[service name].[project name].svc.cluster.local`. This resolves only within the cluster.
+1. The service will be accessible at the following DNS name: `mongodb.workshop.svc.cluster.local` which is formed of `[service name].[project name].svc.cluster.local`. This resolves only within the cluster.
 
-You can also retrieve this from the web console. You'll need this hostname to configure the `rating-api`.
+1. You can also retrieve this from the web console. You'll need this hostname to configure the `rating-api`.
 
-![MongoDB service in the Web Console](../media/mongo-svc-webconsole.png)
+   ![MongoDB service in the Web Console](../media/mongo-svc-webconsole.png)
 
 ## 2.5 Deploy Ratings API
 
