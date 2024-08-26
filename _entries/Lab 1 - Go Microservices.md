@@ -102,21 +102,29 @@ Each Azure Red Hat OpenShift cluster has a public hostname that hosts the OpenSh
 
 ### Create mongoDB from Docker hub
 
-Azure Red Hat OpenShift allows you to deploy a container image from Docker hub easily and we will deploy a MongoDB database service this way. The mandatory environment variables (user, password, database name etc.) can be passed in the ``oc new-app`` command line
+1. Azure Red Hat OpenShift allows you to deploy a container image from Docker hub easily and we will deploy a MongoDB database service this way. The mandatory environment variables (user, password, database name etc.) can be passed in the ``oc new-app`` command line
 
-Deploy the MongoDB database:
-```sh
-oc new-app bitnami/mongodb \
-  -e MONGODB_USERNAME=ratingsuser \
-  -e MONGODB_PASSWORD=ratingspassword \
-  -e MONGODB_DATABASE=ratingsdb \
-  -e MONGODB_ROOT_USER=root \
-  -e MONGODB_ROOT_PASSWORD=ratingspassword
-```
+    Deploy the MongoDB database:
+    ```sh
+    oc new-app bitnami/mongodb \
+      -e MONGODB_USERNAME=ratingsuser \
+      -e MONGODB_PASSWORD=ratingspassword \
+      -e MONGODB_DATABASE=ratingsdb \
+      -e MONGODB_ROOT_USER=root \
+      -e MONGODB_ROOT_PASSWORD=ratingspassword
+    ```
 
-If you now head back to the web console, and switch to the **workshop** project, you should see a new deployment for mongoDB.
+1. If you now head back to the web console, from the left pane select **Administrator** then choose **Developer** from the drop down.
 
-![MongoDB deployment](../media/mongodb-overview.png)
+    ![Copy login command](../media/redhat5.png)
+
+1. In the left navigation pane under **Developer** select **Topology** then from **Project: All Project** dropdown choose **workshop**. 
+
+    ![Copy login command](../media/redhat6.png)
+
+1. You should see a new deployment for mongoDB.
+
+    ![Copy login command](../media/redhat7.png)
 
 ### Verify if the mongoDB pod was created successfully
 
