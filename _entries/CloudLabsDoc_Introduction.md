@@ -44,7 +44,7 @@ You'll be doing the majority of the labs using the OpenShift CLI, but you can al
 
 1. In the Azure portal, open the **Azure Cloud Shell** by clicking on the icon in the top right of the Azure Portal.
 
-    ![Image](./media/cloudshell.png)
+    ![Image](../media/cloudshell.png)
 
 1. When prompted to select either **Bash** or **PowerShell**, select **PowerShell**. 
 
