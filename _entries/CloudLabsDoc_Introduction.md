@@ -14,9 +14,46 @@ Some of the things you’ll be going through:
 
 You'll be doing the majority of the labs using the OpenShift CLI, but you can also accomplish them using the Azure Red Hat OpenShift web console.
 
-## 1.1 Prerequisites
+## Prerequisites
 
-### Tools
+## Login to the Azure Portal
+
+1. In the LabVM, click on the Azure portal shortcut of the Microsoft Edge browser, which is created on the desktop.
+
+   ![](../images/vm30.png)
+
+1. On the **Sign in to Microsoft Azure** tab, you will see the login screen. Enter the following email or username, and click on **Next**.
+
+   - **Email/Username:** <inject key="AzureAdUserEmail"></inject>
+ 
+    ![Enter Your Username](../images/login1.png)
+
+1. Now enter the following password and click on **Sign in**.
+ 
+   - **Password:** <inject key="AzureAdUserPassword"></inject>
+ 
+   ![Enter Your Password](../images/login2.png)
+
+1. If you see the pop-up **Stay Signed in?**, select **No**.
+
+1. If you see the pop-up **You have free Azure Advisor recommendations!**, close the window to continue the lab.
+
+1. If a **Welcome to Microsoft Azure** popup window appears, select **Maybe Later** to skip the tour.
+
+1. Now that you will see the Azure Portal Dashboard, click on **Resource groups** from the Navigate panel to see the resource groups.
+
+   ![Enter Your Password](../images/vm27.png)
+
+1. Click **Next** from the bottom right corner to embark on your Lab journey!
+ 
+     ![Start Your Azure Journey](../images/next-2.png)
+
+
+
+
+
+
+
 
 #### Azure Cloud Shell
 
