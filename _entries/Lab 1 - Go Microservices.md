@@ -26,24 +26,27 @@ Once you're done, you'll have an experience similar to the below.
 
 You can log into the cluster using the `kubeadmin` user.  
 
-Run the following command to find the password for the `kubeadmin` user. Replace $CLUSTER_NAME with your OpenShift cluster name and $RESOURCE_GROUP_NAME with the resource group name
+1. Within the Azure CloudShell run the following command to find the password for the `kubeadmin` user. Replace $CLUSTER_NAME with your OpenShift cluster name and $RESOURCE_GROUP_NAME with the resource group name 
+   **openshift**.
 
-```azurecli-interactive
-az aro list-credentials \
-  --name $CLUSTER_NAME \
-  --resource-group $RESOURCE_GROUP_NAME
-```
+    ```azurecli-interactive
+    az aro list-credentials \
+      --name $CLUSTER_NAME \
+      --resource-group $RESOURCE_GROUP_NAME
+    ```
 
-The following example output shows the password will be in `kubeadminPassword`.
+   >**Note**: You can find $CLUSTER_NAME  by navigating to resource group name **openshift** and copy the CLUSTER_NAME of **Azure Red Hat OpenShift cluster** resource.
 
-```json
-{
-  "kubeadminPassword": "<generated password>",
-  "kubeadminUsername": "kubeadmin"
-}
-```
+1. The following example output shows the password will be in `kubeadminPassword`.
 
-Save these secrets, you are going to use them to connect to the Web Portal
+    ```json
+    {
+      "kubeadminPassword": "<generated password>",
+      "kubeadminUsername": "kubeadmin"
+    }
+    ```
+
+1. Save these secrets, you are going to use them to connect to the Web Portal
 
 ## 2.3 Create Project
 
