@@ -72,12 +72,12 @@ Each Azure Red Hat OpenShift cluster has a public hostname that hosts the OpenSh
 
 1. Once you're logged into the Web Console, click on the username on the top right, then click **Copy login command**.
 
-   ![Copy login command](../media/reahat2.png)
+   ![](../media/redhat2.png)
 
 1. On the following page click on **Display Token** and copy the ```oc login``` line.
 
-    ![Copy login command](../media/reahat3.png)
-    ![Copy login command](../media/reahat4.png)
+    ![Copy login command](../media/redhat3.png)
+    ![Copy login command](../media/redhat4.png)
 
 1. Open the [Azure Cloud Shell](https://shell.azure.com) and paste the login command. You should be able to connect to the cluster.
 
