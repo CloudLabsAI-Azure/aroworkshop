@@ -60,11 +60,12 @@ You'll be doing the majority of the labs using the OpenShift CLI, but you can al
 
     | Settings | Values |
     |  -- | -- |
-    | Resource Group | **storage-<inject key="DeploymentID" enableCopy="false" />** |
+    | Resource Group | **openshift** |
     | Storage account (Create new) | **str<inject key="DeploymentID" enableCopy="false" />** |
     | Region | **<inject key="Region" enableCopy="false" />** |
     | File share (Create new) | **none** |
 
+1. Wait for the deployment to succeed and you should now have access to the Azure Cloud Shell
 
 #### OpenShift CLI (oc)
 
@@ -79,7 +80,7 @@ Please run following commands on Azure Cloud Shell to download and setup the Ope
 cd ~
 curl https://mirror.openshift.com/pub/openshift-v4/clients/ocp/latest/openshift-client-linux.tar.gz > openshift-client-linux.tar.gz
 
-mkdir openshift
+mkdir openshiftdir
 
 tar -zxvf openshift-client-linux.tar.gz -C openshift
 
