@@ -50,7 +50,7 @@ You can log into the cluster using the `kubeadmin` user.
 
 ## Task 2.3 Create Project
 
-### Login to the web console
+### Task 2.3.1 - Login to the web console
 
 Each Azure Red Hat OpenShift cluster has a public hostname that hosts the OpenShift Web Console.
  
@@ -66,7 +66,7 @@ Each Azure Red Hat OpenShift cluster has a public hostname that hosts the OpenSh
 
    ![Azure Red Hat OpenShift Web Console](../media/openshift-webconsole.png)
 
-### Retrieve the login command and token
+### Task 2.3.2 - Retrieve the login command and token
 
 > **Note** Make sure you complete the [prerequisites](#prereq) to install the OpenShift CLI on the Azure Cloud Shell.
 
@@ -83,15 +83,15 @@ Each Azure Red Hat OpenShift cluster has a public hostname that hosts the OpenSh
 
    ![Login through the cloud shell](../media/oc-login-cloudshell.png)
 
-### Create a project
+### Task 2.3.3 - Create a project
 
-A project allows a community of users to organize and manage their content in isolation from other communities.
+1. Run the following command. A project allows a community of users to organize and manage their content in isolation from other communities.
 
-```sh
-oc new-project workshop
-```
+    ```sh
+    oc new-project workshop
+    ```
 
-![Create new project](../media/oc-newproject.png)
+    ![Create new project](../media/oc-newproject.png)
 
 > **Resources**
 
