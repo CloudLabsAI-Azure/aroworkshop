@@ -155,31 +155,31 @@ Azure Red Hat OpenShift allows you to deploy a container image from Docker hub e
 
 ### Verify if the mongoDB pod was created successfully
 
-Run the `oc get all` command to view the status of the new application and verify if the deployment of the mongoDB template was successful.
+1. Run the `oc get all` command to view the status of the new application and verify if the deployment of the mongoDB template was successful.
 
-```sh
-oc get all
-```
+    ```sh
+    oc get all
+    ```
 
-![oc status](../media/oc-status-mongodb.png)
+    ![oc status](../media/oc-status-mongodb.png)
 
 ### Retrieve mongoDB service hostname
 
-Find the mongoDB service.
+1. Find the mongoDB service.
 
-```sh
-oc get svc mongodb
-```
+    ```sh
+    oc get svc mongodb
+    ```
 
-![oc get svc](../media/oc-get-svc-mongo.png)
+    ![oc get svc](../media/oc-get-svc-mongo.png)
 
-The service will be accessible at the following DNS name: `mongodb.workshop.svc.cluster.local` which is formed of `[service name].[project name].svc.cluster.local`. This resolves only within the cluster.
+1. The service will be accessible at the following DNS name: `mongodb.workshop.svc.cluster.local` which is formed of `[service name].[project name].svc.cluster.local`. This resolves only within the cluster.
 
-Copy and paste the **CLUSTER IP** os the mongodb service, you'll need this IP addrress to import the ratings data in the next task to configure the `rating-api`.
+1. Copy and paste the **CLUSTER IP** os the mongodb service, you'll need this IP addrress to import the ratings data in the next task to configure the `rating-api`.
 
-You can also retrieve this from the web console. 
+1. You can also retrieve this from the web console. 
 
-![MongoDB service in the Web Console](../media/mongo-svc-webconsole.png)
+    ![MongoDB service in the Web Console](../media/mongo-svc-webconsole.png)
 
 ## Task 5: Deploy Ratings API
 
@@ -191,7 +191,7 @@ The `rating-api` is a NodeJS application that connects to mongoDB to retrieve an
 
 ### Fork the application to your own GitHub repository
 
-To be able to setup CI/CD webhooks, you'll need to fork the application into your personal GitHub repository.
+1. To be able to setup CI/CD webhooks, you'll need to fork the application into your personal GitHub repository.
 
 <a class="github-button" href="https://github.com/MicrosoftDocs/mslearn-aks-workshop-ratings-api/fork" data-icon="octicon-repo-forked" data-size="large" aria-label="Fork MicrosoftDocs/mslearn-aks-workshop-ratings-api on GitHub">Fork</a>
 
@@ -209,17 +209,17 @@ oc new-app https://github.com/<your GitHub username>/mslearn-aks-workshop-rating
 
 ### Configure the required environment variables
 
-Create the `MONGODB_URI` environment variable. This URI should look like `mongodb://[username]:[password]@[endpoint]:27017/ratingsdb`. You'll need to replace the `[usernaame]` and `[password]` with the ones you used when creating the database. You'll also need to replace the `[endpoint]` with the hostname acquired in the previous step
+1. Create the `MONGODB_URI` environment variable. This URI should look like `mongodb://[username]:[password]@[endpoint]:27017/ratingsdb`. You'll need to replace the `[usernaame]` and `[password]` with the ones you used when creating the database. You'll also need to replace the `[endpoint]` with the hostname acquired in the previous step
 
-Hit **Save** when done.
+1. Hit **Save** when done.
 
-![Create a MONGODB_URI environment variable](../media/rating-api-envvars.png)
+    ![Create a MONGODB_URI environment variable](../media/rating-api-envvars.png)
 
-It can also be done with CLI
+1. It can also be done with CLI
 
-```
-oc set env deploy/rating-api MONGODB_URI=mongodb://ratingsuser:ratingspassword@mongodb.workshop.svc.cluster.local:27017/ratingsdb
-```
+    ```
+    oc set env deploy/rating-api MONGODB_URI=mongodb://ratingsuser:ratingspassword@mongodb.workshop.svc.cluster.local:27017/ratingsdb
+    ```
 
 ### Verify that the service is running
 
@@ -230,127 +230,127 @@ For that, in the deployment's details screen, click on *Pods* tab, then on one o
 
 ### Load data into Mongodb database
 
-Clone the `ratings-api` repo by running the following command and navigate into the specific directory.
+1. Clone the `ratings-api` repo by running the following command and navigate into the specific directory.
 
-```sh
-git clone https://github.com/MicrosoftDocs/mslearn-aks-workshop-ratings-api
-cd mslearn-aks-workshop-ratings-api/
-```
+    ```sh
+    git clone https://github.com/MicrosoftDocs/mslearn-aks-workshop-ratings-api
+    cd mslearn-aks-workshop-ratings-api/
+    ```
 
-Get the pods. You'll specifically use the mongodb pod name to connect to the remote shell on the pod.
+1. Get the pods. You'll specifically use the mongodb pod name to connect to the remote shell on the pod.
 
-```sh
-oc get pods
-```
+    ```sh
+    oc get pods
+    ```
 
-![](../media/oc-get-pods.png)
+    ![](../media/oc-get-pods.png)
 
-Copy the data folder into the mongoDB pod. Replace the **$MONGODB-POD-NAME** with the actual pod name.
+1. Copy the data folder into the mongoDB pod. Replace the **$MONGODB-POD-NAME** with the actual pod name.
 
-```sh
-oc cp ./data $MONGODB-POD-NAME:/tmp/
-```
+    ```sh
+    oc cp ./data $MONGODB-POD-NAME:/tmp/
+    ```
 
-Connect to the remote shell on the pod. Replace the **$MONGODB-POD-NAME** with the actual pod name.
+1. Connect to the remote shell on the pod. Replace the **$MONGODB-POD-NAME** with the actual pod name.
 
-```sh
-oc rsh $MONGODB-POD-NAME
-```
+    ```sh
+    oc rsh $MONGODB-POD-NAME
+    ```
 
-![](../media/oc-rsh.png)
+    ![](../media/oc-rsh.png)
 
-Run the `mongoimport` command to import the JSON data files into the database. Replace the **$MONGODB-CLUSTER-IP** with the actual mongodb service when you ran the command `oc get svc mongodb` in the previous task and verify that all the documents have been imported successfully.
+1. Run the `mongoimport` command to import the JSON data files into the database. Replace the **$MONGODB-CLUSTER-IP** with the actual mongodb service when you ran the command `oc get svc mongodb` in the previous task and verify that all the documents have been imported successfully.
 
-```sh
-mongoimport --host $MONGODB-CLUSTER-IP --username ratingsuser --password ratingspassword --db ratingsdb --collection items --type json --file /tmp/data/items.json --jsonArray
-```
+    ```sh
+    mongoimport --host $MONGODB-CLUSTER-IP --username ratingsuser --password ratingspassword --db ratingsdb --collection items --type json --file /tmp/data/items.json --jsonArray
+    ```
 
-```sh
-mongoimport --host $MONGODB-CLUSTER-IP --username ratingsuser --password ratingspassword --db ratingsdb --collection sites --type json --file /tmp/data/sites.json --jsonArray
-```
+    ```sh
+    mongoimport --host $MONGODB-CLUSTER-IP --username ratingsuser --password ratingspassword --db ratingsdb --collection sites --type json --file /tmp/data/sites.json --jsonArray
+    ```
 
-```sh
-mongoimport --host $MONGODB-CLUSTER-IP --username ratingsuser --password ratingspassword --db ratingsdb --collection ratings --type json --file /tmp/data/ratings.json --jsonArray
-```
+    ```sh
+    mongoimport --host $MONGODB-CLUSTER-IP --username ratingsuser --password ratingspassword --db ratingsdb --collection ratings --type json --file /tmp/data/ratings.json --jsonArray
+    ```
 
-![](../media/import-data.png)
+    ![](../media/import-data.png)
 
-`Exit` the remote shell.
+1. `Exit` the remote shell.
 
-```sh
-exit
-```
+    ```sh
+    exit
+    ```
 
 ### Retrieve `rating-api` service hostname
 
-Find the `rating-api` service.
+1. Find the `rating-api` service.
 
-```sh
-oc get svc rating-api
-```
+    ```sh
+    oc get svc rating-api
+    ```
 
-The service will be accessible at the following DNS name over port 8080: `rating-api.workshop.svc.cluster.local:8080` which is formed of `[service name].[project name].svc.cluster.local`. This resolves only within the cluster.
+1. The service will be accessible at the following DNS name over port 8080: `rating-api.workshop.svc.cluster.local:8080` which is formed of `[service name].[project name].svc.cluster.local`. This resolves only within the cluster.
 
 ### Setup GitHub webhook
 
-To trigger S2I builds when you push code into your GitHib repo, you'll need to setup the GitHub webhook.
+1. To trigger S2I builds when you push code into your GitHib repo, you'll need to setup the GitHub webhook.
 
-Retrieve the GitHub webhook trigger secret. You'll need use this secret in the GitHub webhook URL.
+1. Retrieve the GitHub webhook trigger secret. You'll need use this secret in the GitHub webhook URL.
 
-```sh
-oc get bc/rating-api -o=jsonpath='{.spec.triggers..github.secret}'
-```
+    ```sh
+    oc get bc/rating-api -o=jsonpath='{.spec.triggers..github.secret}'
+    ```
 
-You'll get back something similar to the below. Make note the secret key in the red box as you'll need it in a few steps.
+1. You'll get back something similar to the below. Make note the secret key in the red box as you'll need it in a few steps.
 
-![Rating API GitHub trigger secret](../media/rating-api-github-secret.png)
+    ![Rating API GitHub trigger secret](../media/rating-api-github-secret.png)
 
-Retrieve the GitHub webhook trigger URL from the build configuration.
+1. Retrieve the GitHub webhook trigger URL from the build configuration.
 
-```sh
-oc describe bc/rating-api
-```
+    ```sh
+    oc describe bc/rating-api
+    ```
 
-![Rating API GitHub trigger url](../media/rating-api-github-webhook-url.png)
+    ![Rating API GitHub trigger url](../media/rating-api-github-webhook-url.png)
 
-Replace the `<secret>` placeholder with the secret you retrieved in the previous step to have a URL similar to `https://api.otyvsnz3.eastus.aroapp.io:6443/apis/build.openshift.io/v1/namespaces/workshop/buildconfigs/rating-api/webhooks/SECRETSTRING/github`. You'll use this URL to setup the webhook on your GitHub repository.
+1. Replace the `<secret>` placeholder with the secret you retrieved in the previous step to have a URL similar to `https://api.otyvsnz3.eastus.aroapp.io:6443/apis/build.openshift.io/v1/namespaces/workshop/buildconfigs/rating-api/webhooks/SECRETSTRING/github`. You'll use this URL to setup the webhook on your GitHub repository.
 
-In your GitHub repository, select **Add Webhook** from **Settings** → **Webhooks**.
+1. In your GitHub repository, select **Add Webhook** from **Settings** → **Webhooks**.
 
-Paste the URL output (similar to above) into the Payload URL field.
+1. Paste the URL output (similar to above) into the Payload URL field.
 
-Change the Content Type from GitHub’s default **application/x-www-form-urlencoded** to **application/json**.
+1. Change the Content Type from GitHub’s default **application/x-www-form-urlencoded** to **application/json**.
 
-Click **Add webhook**.
+1. Click **Add webhook**.
 
-![GitHub add webhook](../media/rating-api-github-addwebhook.png)
+    ![GitHub add webhook](../media/rating-api-github-addwebhook.png)
 
-You should see a message from GitHub stating that your webhook was successfully configured.
+1. You should see a message from GitHub stating that your webhook was successfully configured.
 
-Now, whenever you push a change to your GitHub repository, a new build will automatically start, and upon a successful build a new deployment will start.
+1. Now, whenever you push a change to your GitHub repository, a new build will automatically start, and upon a successful build a new deployment will start.
 
-> **Resources**
-> * [ARO Documentation - Triggering builds](https://docs.openshift.com/aro/4/builds/triggering-builds-build-hooks.html)
+    > **Resources**
+    > * [ARO Documentation - Triggering builds](https://docs.openshift.com/aro/4/builds/triggering-builds-build-hooks.html)
 
 ### Update rating-api Target Port
 
-Run the following command to edit the `rating-api` service runinng on the namepsace/project named **workshop**.
+1. Run the following command to edit the `rating-api` service runinng on the namepsace/project named **workshop**.
 
-```sh
-oc edit svc rating-api -n workshop
-```
+    ```sh
+    oc edit svc rating-api -n workshop
+    ```
 
-You'll now update the 8080 port to `3000` port.
+1. You'll now update the 8080 port to `3000` port.
 
-![](../media/edit-port-8080.png)
+    ![](../media/edit-port-8080.png)
 
-Press **i** to edit the file, update the port number to **3000**. Once updated, press *Esc* to ensure you are in Normal mode and type **:wq** and press *Enter*. This writes (saves) the changes and quits.
+1. Press **i** to edit the file, update the port number to **3000**. Once updated, press *Esc* to ensure you are in Normal mode and type **:wq** and press *Enter*. This writes (saves) the changes and quits.
 
-![](../media/port-3000.png)
+    ![](../media/port-3000.png)
 
-You should be able to see that the `rating-api` service is now edited.
+1. You should be able to see that the `rating-api` service is now edited.
 
-![](../media/rating-api-edited.png)
+    ![](../media/rating-api-edited.png)
 
 ## Task 6: Deploy Ratings frontend
 
