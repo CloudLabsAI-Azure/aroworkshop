@@ -17,7 +17,6 @@ You will be able to complete the following tasks:
 - Task 7: Networking and Scaling
 - Task 8: Pod Autoscaling
 - Task 9: Managing Worker Nodes
-- Task 10: Azure Service Operator - Blob Store
 
 ## Task 1: Application Overview
 
@@ -941,11 +940,10 @@ To add a node label it is recommended to set the label in the machine set. While
 - [OVS-networkpolicy](https://docs.openshift.com/container-platform/latest/networking/network_policy/about-network-policy.html#nw-networkpolicy-about_about-network-policy)
 - [Horizontal Pod Autoscaler](https://docs.openshift.com/container-platform/latest/nodes/pods/nodes-pods-autoscaling.html)
 - [Overview of machine management](https://docs.openshift.com/container-platform/4.16/machine_management/index.html)
-- [Azure Service Operator](https://azure.github.io/azure-service-operator/)
 
 ## Summary
 
-You will cover an application overview, deployment, logging, metrics, health checks, persistent storage, configuration, networking, scaling, pod autoscaling, managing worker nodes, and using Azure Service Operator for Blob Store.
+You will cover an application overview, deployment, logging, metrics, health checks, persistent storage, configuration, networking, scaling, pod autoscaling and managing worker nodes.
 
 ### You have successfully completed the lab
 
