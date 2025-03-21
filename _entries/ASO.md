@@ -381,3 +381,31 @@ For this step we will use OStoy to create a file and upload it to the Blob Stora
    ```
 
    We should see our file(s) returned.
+
+
+### Adding node labels
+
+To add a node label it is recommended to set the label in the machine set. While you can directly add a label the node, this is not recommended since nodes could be overwritten and then the label would disappear. Once the machine set is modified to contain the desired label any new machines created from that set would have the newly added labels. This means that existing machines (nodes) will not get the label. Therefore, to make sure all nodes have the label, you should scale the machine set down to zero and then scale the machine set back up.
+
+##### Using the web console
+
+1. Select “MachineSets” from the left menu. You will see the list of machinesets.
+
+   ![](../media/managedlab/3.9-machine-sets-3.png)
+
+1. We’ll select the first one “ok0620-rq5tl-worker-westus21”
+
+1. Click on the second tab “YAML”
+
+1. Click into the YAML and under spec.template.spec.metadata add “labels:” then under that add a key:value pair for the label you want. In our example we can add a label “tier: frontend”. Click Save.
+
+   ![](../media/managedlab/3.9-machine-sets-frontend-4.png)
+
+1. The already existing machine won’t get this label but any new machines will. So to ensure that all machines get the label, we will scale down this machine set to zero, then once completed we will scale it back up as we did earlier.
+
+1. Click on the node that was just created.
+
+1. You can see that the label is now there.
+
+   ![](../media/managedlab/3.9-nodes-frontend-5.png)
+
