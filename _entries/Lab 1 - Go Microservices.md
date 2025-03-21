@@ -567,6 +567,7 @@ spec:
 ![Create network policy](../media/create-networkpolicy.png)
 
 Click **Create**.
+
 [ARO Documentation - Managing Networking with Network Policy](https://docs.openshift.com/aro/4/networking/network_policy/creating-network-policy.html)
 
 ## Reference Links
