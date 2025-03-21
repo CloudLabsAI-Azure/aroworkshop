@@ -714,7 +714,9 @@ There may be times when you need to change aspects of your worker nodes. Things 
 
 1. Access your OpenShift web console from the relevant URL. If you need to find the URL you can run:
 
-`az aro show --name <CLUSTER-NAME> --resource-group <RESOURCEGROUP> --query "consoleProfile.url" -o tsv`
+   ```
+   az aro show --name <CLUSTER-NAME> --resource-group <RESOURCEGROUP> --query "consoleProfile.url" -o tsv
+   ```
 
 1. Expand “Compute” in the left menu and then click on “MachineSets”
 
