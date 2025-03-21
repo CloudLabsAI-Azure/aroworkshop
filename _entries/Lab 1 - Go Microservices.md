@@ -151,8 +151,6 @@ Azure Red Hat OpenShift allows you to deploy a container image from Docker hub e
 
 1. Switch to the **workshop** project, you should see a new deployment for mongoDB.
 
-   ![](../media/Redhat-image8.png)
-
 ### Verify if the mongoDB pod was created successfully
 
 1. Run the `oc get all` command to view the status of the new application and verify if the deployment of the mongoDB template was successful.
