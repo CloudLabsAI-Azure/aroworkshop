@@ -41,25 +41,25 @@ Once you're done, you'll have an experience similar to the below.
 You can log into the cluster using the `kubeadmin` user.  
 
 1. Run the following command on **Azure Cloud Shell** to find the password for the `kubeadmin` user. 
-    - Replace $CLUSTER_NAME with **ARO<inject key="Deployment ID" enableCopy="false"/>** (your OpenShift cluster name)
-    - $RESOURCE_GROUP_NAME with **openshift** (the resource group name).
+   - Replace $CLUSTER_NAME with **ARO<inject key="Deployment ID" enableCopy="false"/>** (your OpenShift cluster name)
+   - $RESOURCE_GROUP_NAME with **openshift** (the resource group name).
 
-    ```azurecli-interactive
-    az aro list-credentials \
-      --name $CLUSTER_NAME \
-      --resource-group $RESOURCE_GROUP_NAME
-    ```
+   ```azurecli-interactive
+   az aro list-credentials \
+     --name $CLUSTER_NAME \
+     --resource-group $RESOURCE_GROUP_NAME
+   ```
 
 2. The following example output shows the password will be in `kubeadminPassword`.
 
-    ```json
-    {
+   ```json
+   {
       "kubeadminPassword": "<generated password>",
       "kubeadminUsername": "kubeadmin"
-    }
-    ```
+   }
+   ```
 
-    ![](../media/redhatl1.png)
+   ![](../media/redhatl1.png)
 
 3. **Save** these secrets in a notepad, you are going to use them to connect to the Web Portal.
 
@@ -71,9 +71,9 @@ Each Azure Red Hat OpenShift cluster has a public hostname that hosts the OpenSh
 
 1. Use the command `az aro list` to list the clusters in your current Azure subscription.
 
-    ```sh
-    az aro list -o table
-    ```
+   ```sh
+   az aro list -o table
+   ```
 
 2. You'll see the cluster web console URL. Open it in a new browser tab, log in with the `kubeadmin` user and the password you retrieved earlier, and click **Log in**.
 
@@ -111,9 +111,9 @@ A project allows a community of users to organize and manage their content in is
 
 1. Run the following command in Cloud Shell to create a new project:
 
-    ```sh
-    oc new-project workshop
-    ```
+   ```sh
+   oc new-project workshop
+   ```
 
    ![Create new project](../media/lab1-task3-1.png)
 
@@ -161,7 +161,7 @@ Azure Red Hat OpenShift allows you to deploy a container image from Docker hub e
     oc get all
     ```
 
-    ![oc status](../media/oc-status-mongodb.png)
+   ![oc status](../media/oc-status-mongodb.png)
 
 ### Retrieve mongoDB service hostname
 
@@ -171,7 +171,7 @@ Azure Red Hat OpenShift allows you to deploy a container image from Docker hub e
     oc get svc mongodb
     ```
 
-    ![oc get svc](../media/oc-get-svc-mongo.png)
+   ![oc get svc](../media/oc-get-svc-mongo.png)
 
 1. The service will be accessible at the following DNS name: `mongodb.workshop.svc.cluster.local` which is formed of `[service name].[project name].svc.cluster.local`. This resolves only within the cluster.
 
@@ -179,7 +179,7 @@ Azure Red Hat OpenShift allows you to deploy a container image from Docker hub e
 
 1. You can also retrieve this from the web console. 
 
-    ![MongoDB service in the Web Console](../media/mongo-svc-webconsole.png)
+   ![MongoDB service in the Web Console](../media/mongo-svc-webconsole.png)
 
 ## Task 5: Deploy Ratings API
 
@@ -213,7 +213,7 @@ oc new-app https://github.com/<your GitHub username>/mslearn-aks-workshop-rating
 
 1. Hit **Save** when done.
 
-    ![Create a MONGODB_URI environment variable](../media/rating-api-envvars.png)
+   ![Create a MONGODB_URI environment variable](../media/rating-api-envvars.png)
 
 1. It can also be done with CLI
 
@@ -243,7 +243,7 @@ For that, in the deployment's details screen, click on *Pods* tab, then on one o
     oc get pods
     ```
 
-    ![](../media/oc-get-pods.png)
+   ![](../media/oc-get-pods.png)
 
 1. Copy the data folder into the mongoDB pod. Replace the **$MONGODB-POD-NAME** with the actual pod name.
 
@@ -257,7 +257,7 @@ For that, in the deployment's details screen, click on *Pods* tab, then on one o
     oc rsh $MONGODB-POD-NAME
     ```
 
-    ![](../media/oc-rsh.png)
+   ![](../media/oc-rsh.png)
 
 1. Run the `mongoimport` command to import the JSON data files into the database. Replace the **$MONGODB-CLUSTER-IP** with the actual mongodb service when you ran the command `oc get svc mongodb` in the previous task and verify that all the documents have been imported successfully.
 
@@ -273,7 +273,7 @@ For that, in the deployment's details screen, click on *Pods* tab, then on one o
     mongoimport --host $MONGODB-CLUSTER-IP --username ratingsuser --password ratingspassword --db ratingsdb --collection ratings --type json --file /tmp/data/ratings.json --jsonArray
     ```
 
-    ![](../media/import-data.png)
+   ![](../media/import-data.png)
 
 1. `Exit` the remote shell.
 
@@ -303,7 +303,7 @@ For that, in the deployment's details screen, click on *Pods* tab, then on one o
 
 1. You'll get back something similar to the below. Make note the secret key in the red box as you'll need it in a few steps.
 
-    ![Rating API GitHub trigger secret](../media/rating-api-github-secret.png)
+   ![Rating API GitHub trigger secret](../media/rating-api-github-secret.png)
 
 1. Retrieve the GitHub webhook trigger URL from the build configuration.
 
@@ -311,7 +311,7 @@ For that, in the deployment's details screen, click on *Pods* tab, then on one o
     oc describe bc/rating-api
     ```
 
-    ![Rating API GitHub trigger url](../media/rating-api-github-webhook-url.png)
+   ![Rating API GitHub trigger url](../media/rating-api-github-webhook-url.png)
 
 1. Replace the `<secret>` placeholder with the secret you retrieved in the previous step to have a URL similar to `https://api.otyvsnz3.eastus.aroapp.io:6443/apis/build.openshift.io/v1/namespaces/workshop/buildconfigs/rating-api/webhooks/SECRETSTRING/github`. You'll use this URL to setup the webhook on your GitHub repository.
 
@@ -323,14 +323,14 @@ For that, in the deployment's details screen, click on *Pods* tab, then on one o
 
 1. Click **Add webhook**.
 
-    ![GitHub add webhook](../media/rating-api-github-addwebhook.png)
+   ![GitHub add webhook](../media/rating-api-github-addwebhook.png)
 
 1. You should see a message from GitHub stating that your webhook was successfully configured.
 
 1. Now, whenever you push a change to your GitHub repository, a new build will automatically start, and upon a successful build a new deployment will start.
 
-    > **Resources**
-    > * [ARO Documentation - Triggering builds](https://docs.openshift.com/aro/4/builds/triggering-builds-build-hooks.html)
+   > **Resources**
+   > * [ARO Documentation - Triggering builds](https://docs.openshift.com/aro/4/builds/triggering-builds-build-hooks.html)
 
 ### Update rating-api Target Port
 
@@ -342,15 +342,15 @@ For that, in the deployment's details screen, click on *Pods* tab, then on one o
 
 1. You'll now update the 8080 port to `3000` port.
 
-    ![](../media/edit-port-8080.png)
+   ![](../media/edit-port-8080.png)
 
 1. Press **i** to edit the file, update the port number to **3000**. Once updated, press *Esc* to ensure you are in Normal mode and type **:wq** and press *Enter*. This writes (saves) the changes and quits.
 
-    ![](../media/port-3000.png)
+   ![](../media/port-3000.png)
 
 1. You should be able to see that the `rating-api` service is now edited.
 
-    ![](../media/rating-api-edited.png)
+   ![](../media/rating-api-edited.png)
 
 ## Task 6: Deploy Ratings frontend
 
@@ -377,19 +377,19 @@ To be able to setup CI/CD webhooks, you'll need to fork the application into you
 
 1. Clone the Git repository locally and change to repo directory
 
-```sh
-git clone https://github.com/<your GitHub username>/mslearn-aks-workshop-ratings-web.git
-cd mslearn-aks-workshop-ratings-web
-```
+    ```sh
+    git clone https://github.com/<your GitHub username>/mslearn-aks-workshop-ratings-web.git
+    cd mslearn-aks-workshop-ratings-web
+    ```
 
 2. Download updated Dockerfile and Footer.vue files
 
-```sh
-wget https://raw.githubusercontent.com/sajitsasi/rating-web/master/Dockerfile -O ./Dockerfile
-wget https://raw.githubusercontent.com/sajitsasi/rating-web/master/src/components/Footer.vue -O ./src/components/Footer.vue
-```
+    ```sh
+    wget https://raw.githubusercontent.com/sajitsasi/rating-web/master/Dockerfile -O ./Dockerfile
+    wget https://raw.githubusercontent.com/sajitsasi/rating-web/master/src/components/Footer.vue -O ./src/components/Footer.vue
+    ```
 
-![Clone and update files](../media/clone_and_update.png)
+   ![Clone and update files](../media/clone_and_update.png)
 
 3. Generate a Personal Access Token (Classic)
 
@@ -413,17 +413,17 @@ wget https://raw.githubusercontent.com/sajitsasi/rating-web/master/src/component
 
 4. Verify, stage, commit and push changes to your local repository
 
-```sh
-git status
-git add .
-git config --global user.email "you@example.com"
-git config --global user.name "Your Name"
-git commit -m "Modified Dockerfile and Footer.vue"
-git push
-```
-> **Note**: Once you run the **git push** command, make sure you enter your **GitHub Username** and the **Personal Access Token as Password** during the authentication process.
+    ```sh
+    git status
+    git add .
+    git config --global user.email "you@example.com"
+    git config --global user.name "Your Name"
+    git commit -m "Modified Dockerfile and Footer.vue"
+    git push
+    ```
+   > **Note**: Once you run the **git push** command, make sure you enter your **GitHub Username** and the **Personal Access Token as Password** during the authentication process.
 
-![Push changes to repository](../media/git-push.png)
+   ![Push changes to repository](../media/git-push.png)
 
 ### Use the OpenShift CLI to deploy the `rating-web`
 
