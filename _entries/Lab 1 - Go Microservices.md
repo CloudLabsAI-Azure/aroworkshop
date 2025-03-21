@@ -16,7 +16,7 @@ You will be able to complete the following tasks:
 - Task 6: Deploy Ratings frontend
 - Task 7: Create Network Policy
 
-## Task 1: Application Overview
+## Task 1: Application Overview (READ-ONLY)
 
 You will be deploying a ratings application on Azure Red Hat OpenShift.
 
