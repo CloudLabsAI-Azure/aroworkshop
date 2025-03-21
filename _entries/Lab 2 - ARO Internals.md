@@ -306,6 +306,10 @@ In this section we will execute a simple example of using persistent storage by 
 
 1. Then `cd /var/demo_files`
 
+   ```
+   cd /var/demo_files
+   ```
+
 1. If you enter `ls` you can see all the files you created.  Next, let's open the file we created and see the contents by the following command: 
 
    ```
@@ -313,6 +317,7 @@ In this section we will execute a simple example of using persistent storage by 
    ```
 
 1. You should see the text you entered in the UI.
+   
    ```
    /var/demo_files $ cat test-pv.txt
    Azure Red Hat OpenShift is the greatest thing since sliced bread!
@@ -339,7 +344,11 @@ In this section we will execute a simple example of using persistent storage by 
 
 1. Then exit the SSH session by typing `exit`. You will then be in your CLI.
 
-## Task 6: Configuration
+   ```
+   exit
+   ```
+
+## Task 6: Configuration (READ-ONLY)
 
 In this section we'll take a look at how OSToy can be configured using [ConfigMaps](https://docs.openshift.com/container-platform/latest/nodes/pods/nodes-pods-configmaps.html), [Secrets](https://docs.openshift.com/container-platform/latest/cicd/builds/creating-build-inputs.html#builds-input-secrets-configmaps_creating-build-inputs), and [Environment Variables](https://docs.openshift.com/container-platform/3.11/dev_guide/environment_variables.html).  This section won't go into details explaining each (the links above are for that), but will show you how they are exposed to the application.  
 
