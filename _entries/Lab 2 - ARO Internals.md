@@ -18,7 +18,7 @@ You will be able to complete the following tasks:
 - Task 8: Pod Autoscaling
 - Task 9: Managing Worker Nodes
 
-## Task 1: Application Overview
+## Task 1: Application Overview (READ-ONLY)
 
 ### Resources
 
@@ -90,7 +90,7 @@ To learn more, click on the "About" menu item on the left once we deploy the app
 
 ### Create new project
 
-1.  To Create a new project called "OSToy" in your cluster, Use the following command:
+1. To Create a new project called "OSToy" in your cluster, Use the following command:
 
    ```
    oc new-project ostoy
