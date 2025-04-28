@@ -1,121 +1,122 @@
 # Build a Java Application with a PostgreSQL Azure DB
 
-## Introduction
+### Estimated Duration: 60 mins
 
-It's time for us to put our cluster to work and deploy a workload. We're going to build an example Java application, [microsweeper](https://github.com/redhat-mw-demos/microsweeper-quarkus/tree/ARO){:target="_blank"}, using [Quarkus](https://quarkus.io/){:target="_blank"} (a Kubernetes Native Java stack) and [Azure Database for PostgreSQL](https://azure.microsoft.com/en-us/products/postgresql/){:target="_blank"}. We'll then deploy the application to our Azure Red Hat OpenShift cluster, connect to the database using Azure Private Link, and automate the deployment with OpenShift Pipelines.
+It's time for us to put our cluster to work and deploy a workload. We're going to build an example Java application, [microsweeper](https://github.com/redhat-mw-demos/microsweeper-quarkus/tree/ARO), using [Quarkus](https://quarkus.io/) (a Kubernetes Native Java stack) and [Azure Database for PostgreSQL](https://azure.microsoft.com/en-us/products/postgresql/). We'll then deploy the application to our Azure Red Hat OpenShift cluster, connect to the database using Azure Private Link, and automate the deployment with OpenShift Pipelines.
 
-## Create Azure Database for PostgreSQL instance
+## Lab Objectives
 
-1. First, let's create a namespace (also known as a project in OpenShift). To do so, run the following command:
+You will be able to complete the following tasks:
 
-    ```bash
-    oc new-project microsweeper-ex
-    ```
+## Task 1: Create Azure Database for PostgreSQL instance
 
-1. Create the Azure Postgres Server resource. To do so, run the following command (this command will take ~ 5mins)
+1. If not logged in via the CLI, click on the dropdown arrow next to your name in the top-right and select *Copy Login Command*.
+
+   ![CLI Login](../media/managedlab/7-ostoy-login.png)
+
+1. A new tab will open click "Display Token"
+
+1. Copy the command under where it says, "Log in with this token". Then go to your terminal and paste that command and press enter. You will see a similar confirmation message if you successfully logged in.
+
+   ```
+   $ oc login --token=sha256~qWBXdQ_X_4wWZor0XZO00ZZXXXXXXXXXXXX --server=https://api.abcs1234.westus.aroapp.io:6443
+   Logged into "https://api.abcd1234.westus.aroapp.io:6443" as "kube:admin" using the token provided.
+
+   You have access to 67 projects, the list has been suppressed. You can list all projects with 'oc projects'
+
+   Using project "default".
+   ```
+
+1. Create a new namespace (also known as a project in OpenShift). To do so, run the following command:
+
+   ```bash
+   oc new-project microsweeper-ex
+   ```
+
+1. Create the Azure Postgres Server resource. To do so, run the following command (this command will take ~ 5mins).
+
+   - Replace the **${AZ_LOCATION}** for `--location` parameter to the actual resource group location. (For example: eastus, centralus or westus)
+   - Replace the **${UNIQUE}** for `--name` parameter to **<inject key="Deployment ID" enableCopy="false"/>**.
 
 
-    !!! warning "For the sake of the workshop we are creating a public database that any host in Azure can connect to. In a real world scenario you would create a private database and connect to it over a private link service"
+   >**NOTE:** For the sake of the workshop we are creating a public database that any host in Azure can connect to. In a real world scenario you would create a private database and connect to it over a private link service"
 
-# Azure PostgreSQL Server Deployment Script
+   ```bash
+   # Create PostgreSQL server
+   az postgres server create \
+      --resource-group "openshift" \
+      --location "${AZ_LOCATION}" \
+      --sku-name GP_Gen5_2 \
+      --name "microsweeper-${UNIQUE}" \
+      --storage-size 51200 \
+      --admin-user myAdmin \
+      --admin-pass psqlPass@123 \
+      --public 0.0.0.0
+   ```
 
-This repository contains a script to deploy an Azure Database for PostgreSQL server using Azure CLI.
+   ### Command Parameters
 
-## Requirements
+   | Parameter | Description |
+   |-----------|-------------|
+   | `--resource-group` | Resource group where the server will be created |
+   | `--location` | Azure region where the server will be deployed |
+   | `--sku-name` | Server type and capacity (GP_Gen5_2 = General Purpose, Gen5, 2 cores) |
+   | `--name` | PostgreSQL server name in Azure |
+   | `--storage-size` | Storage size in MB (51200 = 50 GB) |
+   | `--admin-user` | Administrator username for the server |
+   | `--admin-pass` | Administrator password |
+   | `--public` | Allows connections from public IP addresses (0.0.0.0 = any IP) |
 
-- Azure CLI installed and authenticated
-- Subscription with permissions to create PostgreSQL resources
-- Bash shell environment
+1. Security Considerations:
 
-## Script
+   - The script allows connections from any IP (0.0.0.0) by default. For production environments, it's recommended to restrict this access to specific IPs.
+   - The password is generated with a unique suffix, but in production environments consider using a more secure secret management system like Azure KeyVault.
+   - Consider enabling SSL for secure connections after creating the server.
 
-```bash
-#!/bin/bash
+1. Once the server is created, consider configuring:
 
-# Required environment variables
-export AZ_RG="arogbbwestus3"          
-export AZ_LOCATION="westus3"
-export AZ_USER="adminUserGBB"
-export UNIQUE="$(date +%s | shasum | head -c 10)gbbpwd"
+   - Replace the **${UNIQUE}** for `--server-name` parameter to **<inject key="Deployment ID" enableCopy="false"/>**.
 
-# Create PostgreSQL server
-az postgres server create \
-  --resource-group "${AZ_RG}" \
-  --location "${AZ_LOCATION}" \
-  --sku-name GP_Gen5_2 \
-  --name "microsweeper-${UNIQUE}" \
-  --storage-size 51200 \
-  --admin-user myAdmin \
-  --admin-pass "${AZ_USER}-${UNIQUE}" \
-  --public 0.0.0.0
+   ```bash
+   # Create firewall rule to allow access from Azure services
+   az postgres server firewall-rule create \
+     --resource-group "openshift" \
+     --server-name "microsweeper-${UNIQUE}" \
+     --name AllowAllAzureIPs \
+     --start-ip-address 0.0.0.0 \
+     --end-ip-address 0.0.0.0
 
-# Display created server information
-echo "PostgreSQL Server created:"
-echo "Name: microsweeper-${UNIQUE}"
-echo "Admin username: myAdmin"
-echo "Password: ${AZ_USER}-${UNIQUE}"
-echo "Storage size: 51200 MB"
-```
-
-## Command Parameters
-
-| Parameter | Description |
-|-----------|-------------|
-| `--resource-group` | Resource group where the server will be created |
-| `--location` | Azure region where the server will be deployed |
-| `--sku-name` | Server type and capacity (GP_Gen5_2 = General Purpose, Gen5, 2 cores) |
-| `--name` | PostgreSQL server name in Azure |
-| `--storage-size` | Storage size in MB (51200 = 50 GB) |
-| `--admin-user` | Administrator username for the server |
-| `--admin-pass` | Administrator password |
-| `--public` | Allows connections from public IP addresses (0.0.0.0 = any IP) |
-
-## Security Considerations
-
-- The script allows connections from any IP (0.0.0.0) by default. For production environments, it's recommended to restrict this access to specific IPs.
-- The password is generated with a unique suffix, but in production environments consider using a more secure secret management system like Azure KeyVault.
-- Consider enabling SSL for secure connections after creating the server.
-
-## Additional Recommended Configuration
-
-Once the server is created, consider configuring:
-
-```bash
-# Create firewall rule to allow access from Azure services
-az postgres server firewall-rule create \
-  --resource-group "${AZ_RG}" \
-  --server-name "microsweeper-${UNIQUE}" \
-  --name AllowAllAzureIPs \
-  --start-ip-address 0.0.0.0 \
-  --end-ip-address 0.0.0.0
-
-# Create a database
-az postgres db create \
-  --resource-group "${AZ_RG}" \
-  --server-name "microsweeper-${UNIQUE}" \
-  --name myApplication
-```
+   # Create a database
+   az postgres db create \
+     --resource-group "openshift" \
+     --server-name "microsweeper-${UNIQUE}" \
+     --name myApplication
+   ```
 
 1. Check connectivity from our Cloud Shell to our database. To do so, run the following command:
+
+   - Replace the **${UNIQUE}** for `host` parameter to **<inject key="Deployment ID" enableCopy="false"/>**.
 
     ```bash
     psql \
       "host=microsweeper-${UNIQUE}.postgres.database.azure.com port=5432
-      dbname=postgres
+      dbname=myApplication
       user=myAdmin@microsweeper-${UNIQUE}.postgres.database.azure.com password=${AZ_USER}-${UNIQUE} sslmode=require" \
       -c "select now();"
     ```
 
-    Your output should look similar to:
+1. Your output should look similar to:
 
-    ```{.text .no-copy}
-                  now
-    -------------------------------
-    2022-11-15 06:39:13.903299+00
-    (1 row)
-    ```
+   ```{.text .no-copy}
+                 now
+   -------------------------------
+   2022-11-15 06:39:13.903299+00
+   (1 row)
+   ```
 
-# Installing PostgreSQL Client on macOS
+---
+
+## Troublshooting steps: Installing PostgreSQL Client on macOS
 
 This guide helps resolve the `zsh: command not found: psql` error when attempting to connect to Azure PostgreSQL databases.
 
@@ -194,7 +195,9 @@ If you still encounter issues after installation:
 2. Verify PostgreSQL installation: `brew info postgresql`
 3. Try restarting your terminal session
 
-## Build and deploy the Microsweeper app
+---
+
+## Task 2: Build and deploy the Microsweeper app
 
 Now that we've got a PostgreSQL instance up and running, let's build and deploy our application.
 
@@ -216,7 +219,87 @@ Now that we've got a PostgreSQL instance up and running, let's build and deploy 
     quarkus ext add openshift
     ```
 
-# Installing Quarkus CLI on macOS
+1. We also want Quarkus to be able to use OpenShift ConfigMaps and Secrets
+
+    ```bash
+    quarkus ext add kubernetes-config
+    ```
+
+1. Create a OpenShift secret containing Database credentials for Quarkus to use
+
+    ```bash
+    cat << EOF | oc apply -f -
+    apiVersion: v1
+    kind: Secret
+    metadata:
+      name: microsweeper-secret
+      namespace: microsweeper-ex
+    type: Opaque
+    stringData:
+      PG_URL: jdbc:postgresql://microsweeper-${UNIQUE}.postgres.database.azure.com:5432/postgres
+      PG_USER: myAdmin@microsweeper-${UNIQUE}.postgres.database.azure.com
+      PG_PASS: ${AZ_USER}-${UNIQUE}
+    EOF
+    ```
+
+1. Now, we'll configure Quarkus to use the PostgreSQL database that we created earlier in this section. To do so, we'll create an `application.properties` file using by running the following command:
+
+    ```xml
+    cat <<"EOF" > ./src/main/resources/application.properties
+    # Database configurations
+    %prod.quarkus.datasource.db-kind=postgresql
+    %prod.quarkus.datasource.jdbc.url=${PG_URL}
+    %prod.quarkus.datasource.username=${PG_USER}
+    %prod.quarkus.datasource.password=${PG_PASS}
+    %prod.quarkus.datasource.jdbc.driver=org.postgresql.Driver
+    %prod.quarkus.hibernate-orm.database.generation=drop-and-create
+    %prod.quarkus.hibernate-orm.database.generation=update
+
+    # OpenShift configurations
+    %prod.quarkus.kubernetes-client.trust-certs=true
+    %prod.quarkus.kubernetes.deploy=true
+    %prod.quarkus.kubernetes.deployment-target=openshift
+    %prod.quarkus.openshift.build-strategy=docker
+    %prod.quarkus.openshift.expose=true
+    %prod.quarkus.openshift.deployment-kind=Deployment
+    %prod.quarkus.container-image.group=microsweeper-ex
+    %prod.quarkus.openshift.env.secrets=microsweeper-secret
+    EOF
+    ```
+
+1. Now that we've provided the proper configuration, we will build our application. We'll do this using [source-to-image](https://github.com/openshift/source-to-image){:target="_blank"}, a tool built-in to OpenShift. To start the build and deploy, run the following command:
+
+    !!! info "Quarkus will build the .jar locally and then work with the OpenShift build system to inject it into a Red Hat UBI image, save that to the inbuild OpenShift registry, and then run the resultant image in OpenShift."
+
+    ```bash
+    quarkus build --no-tests
+    ```
+1. We want to see custom metrics from the Quarkus app (they're exposed by the Quarkus micrometer plugin) so we can configure a Prometheus `ServiceMonitor` resource to watch for the applications label.
+
+    ```bash
+    cat << EOF | oc apply -f -
+    apiVersion: monitoring.coreos.com/v1
+    kind: ServiceMonitor
+    metadata:
+      labels:
+        k8s-app: microsweeper-monitor
+      name: microsweeper-monitor
+      namespace: microsweeper-ex
+    spec:
+      endpoints:
+      - interval: 30s
+        targetPort: 8080
+        path: /q/metrics
+        scheme: http
+      selector:
+        matchLabels:
+          app.kubernetes.io/name: microsweeper-appservice
+    EOF
+    ```
+
+---
+
+## Troublshooting steps: Installing Quarkus CLI on macOS
 
 ## Problem
 
@@ -291,6 +374,8 @@ quarkus ext add openshift
 
 - [Quarkus CLI Documentation](https://quarkus.io/guides/cli-tooling)
 - [Quarkus OpenShift Extension Guide](https://quarkus.io/guides/deploying-to-openshift)
+
+---
 
 1. We also want Quarkus to be able to use OpenShift ConfigMaps and Secrets
 
