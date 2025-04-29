@@ -33,6 +33,10 @@ You will be able to complete the following tasks:
    oc new-project microsweeper-ex
    ```
 
+1. Navigate to the Azure Red Hat OpenShift console to verify that the new project/namespace is created.
+
+   image
+
 1. Create the Azure Postgres Server resource. To do so, run the following command (this command will take ~ 5mins).
 
    - Replace the **${AZ_LOCATION}** for `--location` parameter to the actual resource group location. (For example: eastus, centralus or westus)
@@ -73,7 +77,7 @@ You will be able to complete the following tasks:
    - The password is generated with a unique suffix, but in production environments consider using a more secure secret management system like Azure KeyVault.
    - Consider enabling SSL for secure connections after creating the server.
 
-1. Once the server is created, consider configuring:
+1. Once the server is created, create a firewall rule to allow access from Azure services and a database:
 
    - Replace the **${UNIQUE}** for `--server-name` parameter to **<inject key="Deployment ID" enableCopy="false"/>**.
 
@@ -203,99 +207,111 @@ Now that we've got a PostgreSQL instance up and running, let's build and deploy 
 
 1. First, let's clone the application from GitHub to our local Cloud Shell. To do so, run the following command:
 
-    ```bash
-    git clone https://github.com/rh-mobb/aro-workshop-app.git
-    ```
+   ```bash
+   git clone https://github.com/rh-mobb/aro-workshop-app.git
+   ```
 
 1. Next, let's change directory into the newly cloned Git repository. To do so, run the following command:
 
-    ```bash
-    cd aro-workshop-app
-    ```
+   ```bash
+   cd aro-workshop-app
+   ```
 
-1. Next, we will add the OpenShift extension to the Quarkus CLI. To do so, run the following command
+1. Run the following command to install Quarkus CLI:
 
-    ```bash
-    quarkus ext add openshift
-    ```
+   ```bash
+   curl -s "https://get.sdkman.io" | bash
+   source "$HOME/.sdkman/bin/sdkman-init.sh"
+   sdk install quarkus
+   ```
+
+1. Next, we will add the OpenShift extension to the Quarkus CLI. To do so, run the following command:
+
+   ```bash
+   quarkus ext add openshift
+   ```
 
 1. We also want Quarkus to be able to use OpenShift ConfigMaps and Secrets
 
-    ```bash
-    quarkus ext add kubernetes-config
-    ```
+   ```bash
+   quarkus ext add kubernetes-config
+   ```
 
-1. Create a OpenShift secret containing Database credentials for Quarkus to use
+1. Create a OpenShift secret containing Database credentials for Quarkus to use:
 
-    ```bash
-    cat << EOF | oc apply -f -
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: microsweeper-secret
-      namespace: microsweeper-ex
-    type: Opaque
-    stringData:
-      PG_URL: jdbc:postgresql://microsweeper-${UNIQUE}.postgres.database.azure.com:5432/postgres
-      PG_USER: myAdmin@microsweeper-${UNIQUE}.postgres.database.azure.com
-      PG_PASS: ${AZ_USER}-${UNIQUE}
-    EOF
-    ```
+   - Replace the **${UNIQUE}** for `host` parameter to **<inject key="Deployment ID" enableCopy="false"/>**.
+
+   ```bash
+   cat << EOF | oc apply -f -
+   apiVersion: v1
+   kind: Secret
+   metadata:
+     name: microsweeper-secret
+     namespace: microsweeper-ex
+   type: Opaque
+   stringData:
+     PG_URL: jdbc:postgresql://microsweeper-${UNIQUE}.postgres.database.azure.com:5432/myApplication?user=myAdmin@microsweeper-${UNIQUE}&password=psqlPass@123&sslmode=require
+     PG_USER: myAdmin@microsweeper-${UNIQUE}.postgres.database.azure.com
+     PG_PASS: psqlPass@123
+   EOF
+   ```
 
 1. Now, we'll configure Quarkus to use the PostgreSQL database that we created earlier in this section. To do so, we'll create an `application.properties` file using by running the following command:
 
-    ```xml
-    cat <<"EOF" > ./src/main/resources/application.properties
-    # Database configurations
-    %prod.quarkus.datasource.db-kind=postgresql
-    %prod.quarkus.datasource.jdbc.url=${PG_URL}
-    %prod.quarkus.datasource.username=${PG_USER}
-    %prod.quarkus.datasource.password=${PG_PASS}
-    %prod.quarkus.datasource.jdbc.driver=org.postgresql.Driver
-    %prod.quarkus.hibernate-orm.database.generation=drop-and-create
-    %prod.quarkus.hibernate-orm.database.generation=update
+   - Replace the **${UNIQUE}** to **<inject key="Deployment ID" enableCopy="false"/>**.
 
-    # OpenShift configurations
-    %prod.quarkus.kubernetes-client.trust-certs=true
-    %prod.quarkus.kubernetes.deploy=true
-    %prod.quarkus.kubernetes.deployment-target=openshift
-    %prod.quarkus.openshift.build-strategy=docker
-    %prod.quarkus.openshift.expose=true
-    %prod.quarkus.openshift.deployment-kind=Deployment
-    %prod.quarkus.container-image.group=microsweeper-ex
-    %prod.quarkus.openshift.env.secrets=microsweeper-secret
-    EOF
-    ```
+   ```xml
+   cat <<"EOF" > ./src/main/resources/application.properties
+   # Database configurations
+   %prod.quarkus.datasource.db-kind=postgresql
+   %prod.quarkus.datasource.jdbc.url=jdbc:postgresql://microsweeper-${UNIQUE}.postgres.database.azure.com:5432/myApplication?user=myAdmin@microsweeper-${UNIQUE}&password=psqlPass@123&sslmode=require
+   %prod.quarkus.datasource.username=myAdmin@microsweeper-${UNIQUE}.postgres.database.azure.com
+   %prod.quarkus.datasource.password=psqlPass@123
+   %prod.quarkus.datasource.jdbc.driver=org.postgresql.Driver
+   %prod.quarkus.hibernate-orm.database.generation=drop-and-create
+   %prod.quarkus.hibernate-orm.database.generation=update
 
-1. Now that we've provided the proper configuration, we will build our application. We'll do this using [source-to-image](https://github.com/openshift/source-to-image){:target="_blank"}, a tool built-in to OpenShift. To start the build and deploy, run the following command:
+   # OpenShift configurations
+   %prod.quarkus.kubernetes-client.trust-certs=true
+   %prod.quarkus.kubernetes.deploy=true
+   %prod.quarkus.kubernetes.deployment-target=openshift
+   %prod.quarkus.openshift.build-strategy=docker
+   %prod.quarkus.openshift.expose=true
+   %prod.quarkus.openshift.deployment-kind=Deployment
+   %prod.quarkus.container-image.group=microsweeper-ex
+   %prod.quarkus.openshift.env.secrets=microsweeper-secret
+   EOF
+   ```
 
-    !!! info "Quarkus will build the .jar locally and then work with the OpenShift build system to inject it into a Red Hat UBI image, save that to the inbuild OpenShift registry, and then run the resultant image in OpenShift."
+1. Now that we've provided the proper configuration, we will build our application. We'll do this using [source-to-image](https://github.com/openshift/source-to-image), a tool built-in to OpenShift. To start the build and deploy, run the following command:
 
-    ```bash
-    quarkus build --no-tests
-    ```
+   >**NOTE:** Quarkus will build the .jar locally and then work with the OpenShift build system to inject it into a Red Hat UBI image, save that to the inbuild OpenShift registry, and then run the resultant image in OpenShift."
+
+   ```bash
+   quarkus build --no-tests
+   ```
 1. We want to see custom metrics from the Quarkus app (they're exposed by the Quarkus micrometer plugin) so we can configure a Prometheus `ServiceMonitor` resource to watch for the applications label.
 
-    ```bash
-    cat << EOF | oc apply -f -
-    apiVersion: monitoring.coreos.com/v1
-    kind: ServiceMonitor
-    metadata:
-      labels:
-        k8s-app: microsweeper-monitor
-      name: microsweeper-monitor
-      namespace: microsweeper-ex
-    spec:
-      endpoints:
-      - interval: 30s
-        targetPort: 8080
-        path: /q/metrics
-        scheme: http
-      selector:
-        matchLabels:
-          app.kubernetes.io/name: microsweeper-appservice
-    EOF
-    ```
+   ```bash
+   cat << EOF | oc apply -f -
+   apiVersion: monitoring.coreos.com/v1
+   kind: ServiceMonitor
+   metadata:
+     labels:
+       k8s-app: microsweeper-monitor
+     name: microsweeper-monitor
+     namespace: microsweeper-ex
+   spec:
+     endpoints:
+     - interval: 30s
+       targetPort: 8080
+       path: /q/metrics
+       scheme: http
+     selector:
+       matchLabels:
+         app.kubernetes.io/name: microsweeper-appservice
+   EOF
+   ```
 
 ---
 
@@ -375,65 +391,8 @@ quarkus ext add openshift
 - [Quarkus CLI Documentation](https://quarkus.io/guides/cli-tooling)
 - [Quarkus OpenShift Extension Guide](https://quarkus.io/guides/deploying-to-openshift)
 
----
 
-1. We also want Quarkus to be able to use OpenShift ConfigMaps and Secrets
-
-    ```bash
-    quarkus ext add kubernetes-config
-    ```
-
-1. Create a OpenShift secret containing Database credentials for Quarkus to use
-
-    ```bash
-    cat << EOF | oc apply -f -
-    apiVersion: v1
-    kind: Secret
-    metadata:
-      name: microsweeper-secret
-      namespace: microsweeper-ex
-    type: Opaque
-    stringData:
-      PG_URL: jdbc:postgresql://microsweeper-${UNIQUE}.postgres.database.azure.com:5432/postgres
-      PG_USER: myAdmin@microsweeper-${UNIQUE}.postgres.database.azure.com
-      PG_PASS: ${AZ_USER}-${UNIQUE}
-    EOF
-    ```
-
-1. Now, we'll configure Quarkus to use the PostgreSQL database that we created earlier in this section. To do so, we'll create an `application.properties` file using by running the following command:
-
-    ```xml
-    cat <<"EOF" > ./src/main/resources/application.properties
-    # Database configurations
-    %prod.quarkus.datasource.db-kind=postgresql
-    %prod.quarkus.datasource.jdbc.url=${PG_URL}
-    %prod.quarkus.datasource.username=${PG_USER}
-    %prod.quarkus.datasource.password=${PG_PASS}
-    %prod.quarkus.datasource.jdbc.driver=org.postgresql.Driver
-    %prod.quarkus.hibernate-orm.database.generation=drop-and-create
-    %prod.quarkus.hibernate-orm.database.generation=update
-
-    # OpenShift configurations
-    %prod.quarkus.kubernetes-client.trust-certs=true
-    %prod.quarkus.kubernetes.deploy=true
-    %prod.quarkus.kubernetes.deployment-target=openshift
-    %prod.quarkus.openshift.build-strategy=docker
-    %prod.quarkus.openshift.expose=true
-    %prod.quarkus.openshift.deployment-kind=Deployment
-    %prod.quarkus.container-image.group=microsweeper-ex
-    %prod.quarkus.openshift.env.secrets=microsweeper-secret
-    EOF
-    ```
-
-1. Now that we've provided the proper configuration, we will build our application. We'll do this using [source-to-image](https://github.com/openshift/source-to-image){:target="_blank"}, a tool built-in to OpenShift. To start the build and deploy, run the following command:
-
-    !!! info "Quarkus will build the .jar locally and then work with the OpenShift build system to inject it into a Red Hat UBI image, save that to the inbuild OpenShift registry, and then run the resultant image in OpenShift."
-
-    ```bash
-    quarkus build --no-tests
-    ```
-
-# Installing Maven for Quarkus Development
+## Troublshooting steps: Installing Maven for Quarkus Development
 
 ## Problem
 
@@ -501,28 +460,7 @@ quarkus build --no-tests
 - The Quarkus CLI delegates to Maven for most build operations
 - Maven wrapper (`./mvnw`) is the recommended approach for project portabilit
 
-1. We want to see custom metrics from the Quarkus app (they're exposed by the Quarkus micrometer plugin) so we can configure a Prometheus `ServiceMonitor` resource to watch for the applications label.
-
-    ```bash
-    cat << EOF | oc apply -f -
-    apiVersion: monitoring.coreos.com/v1
-    kind: ServiceMonitor
-    metadata:
-      labels:
-        k8s-app: microsweeper-monitor
-      name: microsweeper-monitor
-      namespace: microsweeper-ex
-    spec:
-      endpoints:
-      - interval: 30s
-        targetPort: 8080
-        path: /q/metrics
-        scheme: http
-      selector:
-        matchLabels:
-          app.kubernetes.io/name: microsweeper-appservice
-    EOF
-    ```
+---
 
 ## Review
 
