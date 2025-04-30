@@ -316,10 +316,6 @@ The last thing we will look at is the route that was created for our application
 
 You can read more about routes [in the Red Hat documentation](https://docs.openshift.com/container-platform/latest/networking/routes/route-configuration.html)
 
-From the OpenShift Web Console menu, click on *Networking*->*Routes*, and the *microsweeper-appservice* route.
-
-![OpenShift Web Console - Routes](../media/web-console-routes.png)
-
 ### View custom metrics for the App
 
 Switch the OpenShift Web Console to the Developer view, select the project `microsweeper-ex` and go to **Observe > Metrics** and type `process_uptime_seconds` into custom metrics. Switch the timeframe to `5min`.
