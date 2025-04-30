@@ -1,4 +1,4 @@
-# Build a Java Application with a PostgreSQL Azure DB
+# Lab 2 - Build a Java Application with a PostgreSQL Azure DB
 
 ### Estimated Duration: 60 mins
 
