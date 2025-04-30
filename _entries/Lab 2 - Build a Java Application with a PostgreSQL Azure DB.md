@@ -47,9 +47,8 @@ You will be able to complete the following tasks:
 
    - Replace the **${AZ_LOCATION}** for `--location` parameter to the actual resource group location. (For example: eastus, centralus or westus)
    - Replace the **${UNIQUE}** for `--name` parameter to **<inject key="Deployment ID" enableCopy="false"/>**.
-
-
-   >**NOTE:** For the sake of the workshop we are creating a public database that any host in Azure can connect to. In a real world scenario you would create a private database and connect to it over a private link service"
+     
+   > **NOTE:** For the sake of the workshop we are creating a public database that any host in Azure can connect to. In a real world scenario you would create a private database and connect to it over a private link service"
 
    ```bash
    # Create PostgreSQL server
@@ -64,7 +63,7 @@ You will be able to complete the following tasks:
       --public 0.0.0.0
    ```
 
-   ### Command Parameters
+   * **Command Parameters**
 
    | Parameter | Description |
    |-----------|-------------|
