@@ -41,7 +41,7 @@ You will be able to complete the following tasks:
 
 1. Navigate to the Azure Red Hat OpenShift console to verify that the new project/namespace is created.
 
-   image
+   ![](../media/new-microsweeper-project.png)
 
 1. Create the Azure Postgres Server resource. To do so, run the following command (this command will take ~ 5mins).
 
@@ -241,17 +241,17 @@ Now that we've got a PostgreSQL instance up and running, let's build and deploy 
 
 1. Navigate to the Azure Red Hat OpenShift console's **Networking > Routes** and click on **Edit Route** from the ellipsis.
 
-   image
+   ![](../media/edit-route.png)
 
 1. Set the Target Port to **80 → 8080 (TCP)** from the dropdown and click on **Save**.
 
-   image
+   ![](../media/target-port-8080.png)
 
 1. Now, click on the route/location to navigate to the microsweeper app.
 
-   image
+   ![](../media/route-location.png)
 
-   image
+   ![](../media/microsweeper-app.png)
 
 1. You can also get the the URL for your application using the command line:
 
@@ -267,7 +267,7 @@ Let's take a look at what this command did, along with everything that was creat
 
 From the Administrator perspective, expand *Builds* and then *ImageStreams*, and select the *microsweeper-ex* project.
 
-   ![OpenShift Web Console - Imagestreams](../assets/images/web-console-imagestreams.png).
+![OpenShift Web Console - Imagestreams](../media/web-console-imagestreams.png)
 
 You will see two images that were created on your behalf when you ran the quarkus build command.  There is one image for `openjdk-11` that comes with OpenShift as a Universal Base Image (UBI) that the application will run under. With UBI, you get highly optimized and secure container images that you can build your applications with. For more information on UBI please read this [article](https://www.redhat.com/en/blog/introducing-red-hat-universal-base-image).
 
@@ -277,9 +277,9 @@ The second image you see is the the `microsweeper-appservice` image. This is the
 
 How did those images get built you ask? Back on the OpenShift Web Console, click on *BuildConfigs* and then the *microsweeper-appservice* entry.
 
-![OpenShift Web Console - BuildConfigs](../assets/images/web-console-buildconfigs.png)
+![OpenShift Web Console - BuildConfigs](../media/web-console-buildconfigs.png)
 
-![OpenShift Web Console - microsweeper-appservice BuildConfig](../assets/images/web-console-microsweeper-appservice-buildconfig.png)
+![OpenShift Web Console - microsweeper-appservice BuildConfig](../media/web-console-microsweeper-appservice-buildconfig.png)
 
 When you ran the `quarkus build` command, this created the BuildConfig you can see here. In our quarkus settings, we set the deployment strategy to build the image using Docker. The Dockerfile file from the git repo that we cloned was used for this BuildConfig.
 
@@ -292,25 +292,25 @@ You can read more about Builds [here](https://docs.openshift.com/container-platf
 
 To look at what the build actually did, click on Builds tab and then into the first Build in the list.
 
-![OpenShift Web Console - Builds](../assets/images/web-console-builds.png)
+![OpenShift Web Console - Builds](../media/web-console-builds.png)
 
 On the next screen, explore around. Look specifically at the YAML definition of the build and the logs to see what the build actually did. If you build failed for some reason, the logs are a great first place to start to look at to debug what happened.
 
-![OpenShift Web Console - Build Logs](../assets/images/web-console-build-logs.png)
+![OpenShift Web Console - Build Logs](../media/web-console-build-logs.png)
 
 ### Image Deployment
 
 After the image was built, the source-to-image process then deployed the application for us. In the quarkus properties file, we specified that a deployment should be created. You can view the deployment under *Workloads* -> *Deployments*, and then click on the Deployment name.
 
-![OpenShift Web Console - Deployments](../assets/images/web-console-deployments.png)
+![OpenShift Web Console - Deployments](../media/web-console-deployments.png)
 
 Explore around the deployment screen, check out the different tabs, look at the YAML that was created.
 
-![OpenShift Web Console - Deployment YAML](../assets/images/web-console-deployment-yaml.png)
+![OpenShift Web Console - Deployment YAML](../media/web-console-deployment-yaml.png)
 
 Look at the pod the deployment created, and see that it is running.
 
-![OpenShift Web Console - Deployment Pods](../assets/images/web-console-deployment-pods.png)
+![OpenShift Web Console - Deployment Pods](../media/web-console-deployment-pods.png)
 
 The last thing we will look at is the route that was created for our application. In the quarkus properties file, we specified that the application should be exposed to the Internet.  When you create a Route, you have the option to specify a hostname. To start with, we will just use the default domain that comes with ARO (`useast.aroapp.io` in our case). In next section, we will expose the same application to a custom domain leveraging Azure Front Door.
 
@@ -318,15 +318,13 @@ You can read more about routes [in the Red Hat documentation](https://docs.opens
 
 From the OpenShift Web Console menu, click on *Networking*->*Routes*, and the *microsweeper-appservice* route.
 
-![OpenShift Web Console - Routes](../assets/images/web-console-routes.png)
+![OpenShift Web Console - Routes](../media/web-console-routes.png)
 
 ### View custom metrics for the App
 
 Switch the OpenShift Web Console to the Developer view, select the project `microsweeper-ex` and go to **Observe > Metrics** and type `process_uptime_seconds` into custom metrics. Switch the timeframe to `5min`.
 
 >**NOTE:** While you're here, you might also want to look at the Dashboard tab to see the Project's CPU/Memory usage.
-
-![Microsweeper custom metrics](./images/microsweeper-metrics.png)
 
 
 ### Application IP
@@ -354,27 +352,27 @@ It comes from the ARO Load Balancer. In this workshop, we are using a public clu
 
 To view the ARO load balancer, on the Azure Portal, search for "Load Balancers" in the search bar and click on the *Load balancers* service.
 
-![Azure Portal - Load Balancer Search](../assets/images/azure-portal-load-balancer-menu.png)
+![Azure Portal - Load Balancer Search](../media/azure-portal-load-balancer-menu.png)
 
 You will notice two load balancers, one that has -internal in the name and one that does not.  The `-internal` load balancer is used for the OpenShift API. The other load balancer (without the `-internal` suffix) in the name is use the public load balancer used for the default Ingress Controller. Click into the load balancer for applications.
 
-![Azure Portal - Load Balancer List](../assets/images/azure-portal-load-balancer-list.png)
+![Azure Portal - Load Balancer List](../media/azure-portal-load-balancer-list.png)
 
 On the next screen, click on Frontend IP configuration.  Notice the IP address of the 2nd load balancer on the list.  This IP address matches what you found with the nslookup command.
 
-![Azure Portal - Load Balancer Frontend IP configuration](../assets/images/azure-portal-lb-frontend-ip-config.png)
+![Azure Portal - Load Balancer Frontend IP configuration](../media/azure-portal-lb-frontend-ip-config.png)
 
 For the fun of it, we can also look at what backends this load balancer is connected to.
 
-![Azure Portal - Load Balancer Frontend IP configuration](../assets/images/azure-portal-lb-frontend-ip-drilldown.png)
+![Azure Portal - Load Balancer Frontend IP configuration](../media/azure-portal-lb-frontend-ip-drilldown.png)
 
 Next, click on the pool that ends in 443.
 
-![Azure Portal - Load Balancer Frontend IP configuration](../assets/images/azure-portal-lb-frontend-ip-detail.png)
+![Azure Portal - Load Balancer Frontend IP configuration](../media/azure-portal-lb-frontend-ip-detail.png)
 
 Notice the *Backend pool*. This is the subnet that contains all the worker nodes. And the best part is all of this came with Azure Red Hat OpenShift out of the box!
 
-![Azure Portal - Load Balancer Backend Pool](../assets/images/azure-portal-lb-backend-pool.png)
+![Azure Portal - Load Balancer Backend Pool](../media/azure-portal-lb-backend-pool.png)
 
 ---
 
