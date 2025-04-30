@@ -324,7 +324,7 @@ From the OpenShift Web Console menu, click on *Networking*->*Routes*, and the *m
 
 Switch the OpenShift Web Console to the Developer view, select the project `microsweeper-ex` and go to **Observe > Metrics** and type `process_uptime_seconds` into custom metrics. Switch the timeframe to `5min`.
 
-**NOTE:** While you're here, you might also want to look at the Dashboard tab to see the Project's CPU/Memory usage.
+>**NOTE:** While you're here, you might also want to look at the Dashboard tab to see the Project's CPU/Memory usage.
 
 ![Microsweeper custom metrics](./images/microsweeper-metrics.png)
 
@@ -375,6 +375,8 @@ Next, click on the pool that ends in 443.
 Notice the *Backend pool*. This is the subnet that contains all the worker nodes. And the best part is all of this came with Azure Red Hat OpenShift out of the box!
 
 ![Azure Portal - Load Balancer Backend Pool](../assets/images/azure-portal-lb-backend-pool.png)
+
+---
 
 # Troubleshooting Steps
 
