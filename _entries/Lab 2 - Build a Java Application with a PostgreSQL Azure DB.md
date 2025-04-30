@@ -18,7 +18,7 @@ You will be able to complete the following tasks:
 
 1. If not logged in via the CLI, click on the dropdown arrow next to your name in the top-right and select *Copy Login Command*.
 
-   ![CLI Login](../media/managedlab/7-ostoy-login.png)
+   ![CLI Login](../media/7-ostoy-login.png)
 
 1. A new tab will open click "Display Token"
 
