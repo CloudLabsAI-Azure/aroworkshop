@@ -1,0 +1,25 @@
+[ 
+  {
+  "Name": "Azure Red Hat OpenShift",
+  "Language": "English",
+  "BaseURL": "https://github.com/CloudLabsAI-Azure/aroworkshop",
+  "Files": [
+     {
+        "RawFilePath": "https://raw.githubusercontent.com/CloudLabsAI-Azure/aroworkshop/refs/heads/master/_entries/CloudLabsDoc_Introduction.md",
+        "Order": 1
+     },
+     {
+        "RawFilePath": "https://raw.githubusercontent.com/CloudLabsAI-Azure/aroworkshop/refs/heads/master/_entries/Prerequisites.md",
+        "Order": 2
+     },
+     {
+        "RawFilePath": "https://raw.githubusercontent.com/CloudLabsAI-Azure/aroworkshop/refs/heads/master/_entries/Lab%201%20-%20Go%20Microservices.md",
+        "Order": 3
+     },
+     {
+        "RawFilePath": "https://raw.githubusercontent.com/CloudLabsAI-Azure/aroworkshop/refs/heads/master/_entries/Lab%202%20-%20Build%20a%20Java%20Application%20with%20a%20PostgreSQL%20Azure%20DB.md",
+        "Order": 4
+     }
+   ]
+ }
+]
