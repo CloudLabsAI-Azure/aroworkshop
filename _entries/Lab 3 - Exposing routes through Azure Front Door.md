@@ -148,19 +148,6 @@ az afd route show \
     --output table
 ```
 
-## Differences Between Public and Private ARO Clusters
-
-| Feature | Public ARO Cluster | Private ARO Cluster |
-|---------|-------------------|---------------------|
-| Ingress Controller | Uses default public ingress | Requires private ingress controller |
-| Connectivity | Direct from Front Door to public endpoints | Requires Private Link Service |
-| Default Security | Traffic flows over public internet to ARO | Traffic remains on Microsoft backbone |
-| Implementation | Simpler, fewer components | More complex, more secure |
-| Variable Requirements | PUBLIC_ROUTE_HOST | PRIVATE_LINK_SERVICE_ID |
-| Route Configuration | Standard route | Route with private link backend |
-| Network Configuration | No additional network setup | Requires proper VNet and subnet configuration |
-| DNS Requirements | Direct DNS to public endpoints | DNS to Front Door endpoints only |
-
 ## Testing the Configuration
 
 Verify your setup with these steps:
