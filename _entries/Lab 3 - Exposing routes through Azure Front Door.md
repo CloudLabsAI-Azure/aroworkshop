@@ -153,14 +153,7 @@ az afd route show \
 Verify your setup with these steps:
 
 ```bash
-# Get your custom domain from the route
-DOMAIN=$(oc -n microsweeper-ex get route microsweeper-appservice-fd -o jsonpath='{.spec.host}')
-
-# Verify DNS resolution
-nslookup $DOMAIN
-
-# Check the connection in your browser
-echo "Visit https://$DOMAIN in your browser"
+echo $DEFAULT_ENDPOINT_HOST
 ```
 
 When visiting your custom domain in a browser, you should see:
