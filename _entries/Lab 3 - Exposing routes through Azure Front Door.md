@@ -150,7 +150,7 @@ az afd route show \
 
 ## Testing the Configuration
 
-Verify your setup with these steps:
+Run the below command to fetch the Azure front door endpoint and access it through the web browser to view the application.
 
 ```bash
 echo $DEFAULT_ENDPOINT_HOST
