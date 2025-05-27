@@ -16,7 +16,7 @@ Azure Front Door is a global, scalable entry-point that uses the Microsoft globa
 
 ## Architecture
 
-![ARO + Azure Front Door Diagram](images/aro-frontdoor.png)
+![ARO + Azure Front Door Diagram](../media/aro-frontdoor.png)
 
 In this architecture:
 - Azure Front Door sits at the edge of Microsoft's network
