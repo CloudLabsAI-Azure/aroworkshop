@@ -19,9 +19,11 @@
      {
         "RawFilePath": "https://raw.githubusercontent.com/CloudLabsAI-Azure/aroworkshop/refs/heads/master/_entries/Lab%202%20-%20Build%20a%20Java%20Application%20with%20a%20PostgreSQL%20Azure%20DB.md",
         "Order": 4
+     },
+     {
+        "RawFilePath": "https://raw.githubusercontent.com/CloudLabsAI-Azure/aroworkshop/refs/heads/master/_entries/Lab%203%20-%20Exposing%20routes%20through%20Azure%20Front%20Door.md",
+        "Order": 5
      }
    ]
  }
 ]
-
-
