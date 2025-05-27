@@ -173,10 +173,7 @@ When visiting your custom domain in a browser, you should see:
 - **Security**: Azure Front Door provides WAF capabilities to protect against common web exploits
 - **Performance**: Global content delivery and edge caching improve application performance
 - **Scalability**: Front Door automatically scales with traffic demands
-- **Certificate Management**: Managed TLS certificates with automatic renewal
 - **Traffic Management**: Load balancing and health probes ensure high availability
-
-
 
 ## Conclusion
 
