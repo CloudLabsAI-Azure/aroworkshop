@@ -43,6 +43,18 @@ You will be able to complete the following tasks:
 
    ![](../media/new-microsweeper-project.png)
 
+1. Define the environment variables.
+
+   - Replace the **DEPLOYMENT_ID** value with **<inject key="Deployment ID" enableCopy="false"/>**.
+   - Replace the **AZ_LOCATION** value with **<inject key="Region" enableCopy="false"/>**.
+  
+   >**NOTE:** Navigate to the **Environment** tab to fetch the Deployment ID and Region variables.
+
+   ```
+   export UNIQUE="DEPLOYMENT_ID"
+   export AZ_LOCATION="RG_REGION"
+   ```
+
 1. Create the Azure Postgres Server resource. To do so, run the following command (this command will take ~ 5mins).
 
    - Replace the **${AZ_LOCATION}** for `--location` parameter to the actual resource group location. (For example: eastus, centralus or westus)
@@ -51,16 +63,16 @@ You will be able to complete the following tasks:
    > **NOTE:** For the sake of the workshop we are creating a public database that any host in Azure can connect to. In a real world scenario you would create a private database and connect to it over a private link service"
 
    ```bash
-   # Create PostgreSQL server
-   az postgres server create \
-      --resource-group "openshift" \
-      --location "${AZ_LOCATION}" \
-      --sku-name GP_Gen5_2 \
-      --name "microsweeper-${UNIQUE}" \
-      --storage-size 51200 \
-      --admin-user myAdmin \
-      --admin-pass psqlPass@123 \
-      --public 0.0.0.0
+   # Create PostgreSQL Flexible server
+   az postgres flexible-server create \
+   --resource-group "openshift" \
+   --location "${AZ_LOCATION}" \
+   --sku-name Standard_D2s_v3 \
+   --name "microsweeper-${UNIQUE}" \
+   --storage-size 1024 \
+   --admin-user myAdmin \
+   --admin-pass 'psqlPass@123' \
+   --public 0.0.0.0
    ```
 
    * **Command Parameters**
@@ -69,10 +81,10 @@ You will be able to complete the following tasks:
    |-----------|-------------|
    | `--resource-group` | Resource group where the server will be created |
    | `--location` | Azure region where the server will be deployed |
-   | `--sku-name` | Server type and capacity (GP_Gen5_2 = General Purpose, Gen5, 2 cores) |
-   | `--name` | PostgreSQL server name in Azure |
-   | `--storage-size` | Storage size in MB (51200 = 50 GB) |
-   | `--admin-user` | Administrator username for the server |
+   | `--sku-name` | Server type and capacity (Standard_D2s_v3) |
+   | `--name` | PostgreSQL flexible server name in Azure |
+   | `--storage-size` | Storage size in MB (1024 = 1 GB) |
+   | `--admin-user` | Administrator username for the flexible server |
    | `--admin-pass` | Administrator password |
    | `--public` | Allows connections from public IP addresses (0.0.0.0 = any IP) |
 
@@ -88,18 +100,18 @@ You will be able to complete the following tasks:
 
    ```bash
    # Create firewall rule to allow access from Azure services
-   az postgres server firewall-rule create \
+   az postgres flexible-server firewall-rule create \
      --resource-group "openshift" \
-     --server-name "microsweeper-${UNIQUE}" \
-     --name AllowAllAzureIPs \
+     --name "microsweeper-${UNIQUE}" \
+     --rule-name "AllowAllAzureIPs" \
      --start-ip-address 0.0.0.0 \
      --end-ip-address 0.0.0.0
 
    # Create a database
-   az postgres db create \
+   az postgres flexible-server db create \
      --resource-group "openshift" \
      --server-name "microsweeper-${UNIQUE}" \
-     --name myApplication
+     --database-name "myApplication"
    ```
 
 1. Check connectivity from our Cloud Shell to our database. To do so, run the following command:
@@ -107,11 +119,13 @@ You will be able to complete the following tasks:
    - Replace the **${UNIQUE}** for `host` parameter to **<inject key="Deployment ID" enableCopy="false"/>**.
 
     ```bash
-    psql \
-      "host=microsweeper-${UNIQUE}.postgres.database.azure.com port=5432
-      dbname=myApplication
-      user=myAdmin@microsweeper-${UNIQUE}.postgres.database.azure.com password=${AZ_USER}-${UNIQUE} sslmode=require" \
-      -c "select now();"
+    psql "host=microsweeper-${UNIQUE}.postgres.database.azure.com \
+      port=5432 \
+      dbname=myApplication \
+      user=myAdmin \
+      password=psqlPass@123 \
+      sslmode=require" \
+      -c "SELECT now();"
     ```
 
 1. Your output should look similar to:
@@ -172,8 +186,8 @@ Now that we've got a PostgreSQL instance up and running, let's build and deploy 
      namespace: microsweeper-ex
    type: Opaque
    stringData:
-     PG_URL: jdbc:postgresql://microsweeper-${UNIQUE}.postgres.database.azure.com:5432/myApplication?user=myAdmin@microsweeper-${UNIQUE}&password=psqlPass@123&sslmode=require
-     PG_USER: myAdmin@microsweeper-${UNIQUE}.postgres.database.azure.com
+     PG_URL: jdbc:postgresql://microsweeper-${UNIQUE}.postgres.database.azure.com:5432/myApplication?user=myAdmin&password=psqlPass@123&sslmode=require
+     PG_USER: myAdmin
      PG_PASS: psqlPass@123
    EOF
    ```
@@ -186,8 +200,8 @@ Now that we've got a PostgreSQL instance up and running, let's build and deploy 
    cat <<"EOF" > ./src/main/resources/application.properties
    # Database configurations
    %prod.quarkus.datasource.db-kind=postgresql
-   %prod.quarkus.datasource.jdbc.url=jdbc:postgresql://microsweeper-${UNIQUE}.postgres.database.azure.com:5432/myApplication?user=myAdmin@microsweeper-${UNIQUE}&password=psqlPass@123&sslmode=require
-   %prod.quarkus.datasource.username=myAdmin@microsweeper-${UNIQUE}.postgres.database.azure.com
+   %prod.quarkus.datasource.jdbc.url=jdbc:postgresql://microsweeper-${UNIQUE}.postgres.database.azure.com:5432/myApplication?user=myAdmin&password=psqlPass@123&sslmode=require
+   %prod.quarkus.datasource.username=myAdmin
    %prod.quarkus.datasource.password=psqlPass@123
    %prod.quarkus.datasource.jdbc.driver=org.postgresql.Driver
    %prod.quarkus.hibernate-orm.database.generation=drop-and-create
@@ -372,6 +386,8 @@ Notice the *Backend pool*. This is the subnet that contains all the worker nodes
 ---
 
 # Troubleshooting Steps
+
+Navigate through the below troubleshooting steps if you encounter any issues.
 
 ## Troublshooting steps: Installing PostgreSQL Client on macOS
 
