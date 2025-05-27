@@ -49,9 +49,9 @@ export AZ_LOCATION="RG_REGION"    # Resource group region of your ARO cluster
 export UNIQUE="$(openssl rand -hex 4)"      
 export ARO_DEFAULT_DOMAIN="${AZ_ARO}.${AZ_LOCATION}.aroapp.io"
 export PUBLIC_ROUTE_HOST="microsweeper-appservice-microsweeper-ex.apps.${ARO_DEFAULT_DOMAIN}"
-FRONTDOOR_NAME="${AZ_USER}-frontdoor"
-ENDPOINT_NAME="${AZ_USER}-endpoint"
-ORIGIN_GROUP="${AZ_USER}-origins"
+export FRONTDOOR_NAME="${AZ_USER}-frontdoor"
+export ENDPOINT_NAME="${AZ_USER}-endpoint"
+export ORIGIN_GROUP="${AZ_USER}-origins"
 
 # OpenShift variables
 export NAMESPACE="microsweeper-ex"             
