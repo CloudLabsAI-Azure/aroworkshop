@@ -198,6 +198,19 @@ Build objects share common characteristics: inputs for a build, the need to comp
 
 See here for more details: [https://docs.openshift.com/aro/4/openshift_images/image-streams-manage.html](https://docs.openshift.com/aro/4/openshift_images/image-streams-manage.html)
 
+## Differences Between Public and Private ARO Clusters
+
+| Feature | Public ARO Cluster | Private ARO Cluster |
+|---------|-------------------|---------------------|
+| Ingress Controller | Uses default public ingress | Requires private ingress controller |
+| Connectivity | Direct from Front Door to public endpoints | Requires Private Link Service |
+| Default Security | Traffic flows over public internet to ARO | Traffic remains on Microsoft backbone |
+| Implementation | Simpler, fewer components | More complex, more secure |
+| Variable Requirements | PUBLIC_ROUTE_HOST | PRIVATE_LINK_SERVICE_ID |
+| Route Configuration | Standard route | Route with private link backend |
+| Network Configuration | No additional network setup | Requires proper VNet and subnet configuration |
+| DNS Requirements | Direct DNS to public endpoints | DNS to Front Door endpoints only |
+
 ## Support Contact
  
 The CloudLabs support team is available 24/7, 365 days a year, via email and live chat to ensure seamless assistance at any time. We offer dedicated support channels tailored specifically for both learners and instructors, ensuring that all your needs are promptly and efficiently addressed.
