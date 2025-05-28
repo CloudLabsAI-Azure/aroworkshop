@@ -44,7 +44,7 @@ You will be able to complete the following tasks:
    ![](../media/new-microsweeper-project.png)
 
 1. Define the environment variables.
-
+   
    - Replace the **DEPLOYMENT_ID** value with **<inject key="Deployment ID" enableCopy="false"/>**.
    - Replace the **AZ_LOCATION** value with **<inject key="Region" enableCopy="false"/>**.
   
@@ -56,9 +56,6 @@ You will be able to complete the following tasks:
    ```
 
 1. Create the Azure Postgres Server resource. To do so, run the following command (this command will take ~ 5mins).
-
-   - Replace the **${AZ_LOCATION}** for `--location` parameter to the actual resource group location. (For example: eastus, centralus or westus)
-   - Replace the **${UNIQUE}** for `--name` parameter to **<inject key="Deployment ID" enableCopy="false"/>**.
      
    > **NOTE:** For the sake of the workshop we are creating a public database that any host in Azure can connect to. In a real world scenario you would create a private database and connect to it over a private link service"
 
@@ -96,8 +93,6 @@ You will be able to complete the following tasks:
 
 1. Once the server is created, create a firewall rule to allow access from Azure services and a database:
 
-   - Replace the **${UNIQUE}** for `--server-name` parameter to **<inject key="Deployment ID" enableCopy="false"/>**.
-
    ```bash
    # Create firewall rule to allow access from Azure services
    az postgres flexible-server firewall-rule create \
@@ -115,8 +110,6 @@ You will be able to complete the following tasks:
    ```
 
 1. Check connectivity from our Cloud Shell to our database. To do so, run the following command:
-
-   - Replace the **${UNIQUE}** for `host` parameter to **<inject key="Deployment ID" enableCopy="false"/>**.
 
     ```bash
     psql "host=microsweeper-${UNIQUE}.postgres.database.azure.com \
@@ -175,7 +168,7 @@ Now that we've got a PostgreSQL instance up and running, let's build and deploy 
 
 1. Create a OpenShift secret containing Database credentials for Quarkus to use:
 
-   - Replace the **${UNIQUE}** for `host` parameter to **<inject key="Deployment ID" enableCopy="false"/>**.
+   - Replace the **${UNIQUE}** in the `PG_URL` to **<inject key="Deployment ID" enableCopy="true"/>**.
 
    ```bash
    cat << EOF | oc apply -f -
@@ -194,7 +187,7 @@ Now that we've got a PostgreSQL instance up and running, let's build and deploy 
 
 1. Now, we'll configure Quarkus to use the PostgreSQL database that we created earlier in this section. To do so, we'll create an `application.properties` file using by running the following command:
 
-   - Replace the **${UNIQUE}** to **<inject key="Deployment ID" enableCopy="false"/>**.
+   - Replace the **${UNIQUE}** in the `PG_URL` to **<inject key="Deployment ID" enableCopy="true"/>**.
 
    ```xml
    cat <<"EOF" > ./src/main/resources/application.properties
@@ -265,6 +258,8 @@ Now that we've got a PostgreSQL instance up and running, let's build and deploy 
    ![](../media/route-location.png)
 
    ![](../media/microsweeper-app.png)
+
+   >**NOTE:** If you don't see the application right away, then wait for a few minutes and then try to access the application via `HTTP/8080` port.
 
 1. You can also get the the URL for your application using the command line:
 
@@ -428,13 +423,13 @@ psql --version
 Use the following command format to connect to your Azure PostgreSQL database:
 
 ```bash
-psql \
-  "host=microsweeper-${UNIQUE}.postgres.database.azure.com port=5432 \
-  dbname=postgres \
-  user=myAdmin@microsweeper-${UNIQUE}.postgres.database.azure.com \
-  password=${AZ_USER}-${UNIQUE} \
-  sslmode=require" \
-  -c "select now();"
+psql "host=microsweeper-${UNIQUE}.postgres.database.azure.com \
+   port=5432 \
+   dbname=myApplication \
+   user=myAdmin \
+   password=psqlPass@123 \
+   sslmode=require" \
+   -c "SELECT now();"
 ```
 
 ## Environment Variables
@@ -615,3 +610,5 @@ quarkus build --no-tests
 - Maven requires Java to be installed (JDK 11+ recommended for Quarkus)
 - The Quarkus CLI delegates to Maven for most build operations
 - Maven wrapper (`./mvnw`) is the recommended approach for project portabilit
+
+### You have successfully completed the lab. Click on **Next>>** to proceed with the next lab.
