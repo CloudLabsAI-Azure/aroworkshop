@@ -150,7 +150,7 @@ az afd route show \
 
 ## Testing the Configuration
 
-Run the below command to fetch the Azure front door endpoint and access it through the web browser to view the application.
+Run the below command to fetch the Azure front door endpoint and access it through the web browser to view the application. Access the web application using `HTTP/8080` port.
 
 ```bash
 echo $DEFAULT_ENDPOINT_HOST
@@ -168,7 +168,7 @@ When visiting your custom domain in a browser, you should see:
 - **Scalability**: Front Door automatically scales with traffic demands
 - **Traffic Management**: Load balancing and health probes ensure high availability
 
-## Conclusion
+## Summary
 
 Integrating Azure Front Door with your ARO cluster provides a secure, high-performance way to expose your applications globally while maintaining control over your infrastructure. Whether using a public or private cluster, Front Door offers significant benefits for production workloads.
 
@@ -177,3 +177,5 @@ Integrating Azure Front Door with your ARO cluster provides a secure, high-perfo
 - [Azure Front Door Documentation](https://learn.microsoft.com/en-us/azure/frontdoor/)
 - [ARO Documentation](https://learn.microsoft.com/en-us/azure/openshift/)
 - [OpenShift Networking Documentation](https://docs.openshift.com/container-platform/latest/networking/understanding-networking.html)
+
+### You have successfully completed the lab.
