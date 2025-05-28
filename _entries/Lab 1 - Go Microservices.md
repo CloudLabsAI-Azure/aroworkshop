@@ -583,4 +583,4 @@ Click **Create**.
 
 You'll complete tasks including an application overview, creating a project, deploying MongoDB, the Ratings API and frontend, and establishing a network policy for secure communication.
 
-### You have successfully completed the lab
+### You have successfully completed the lab. Click on **Next>>** to proceed with the next lab.
