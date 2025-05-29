@@ -27,7 +27,18 @@ In this architecture:
 - A deployed application on the ARO cluster (like the microsweeper app from the workshop deployed in the previous lab)
 - Administrative access to your Azure subscription
 
-## Environment Variables Setup
+## Lab Objectives
+
+You will be able to complete the following tasks:
+
+- Task 1: Environment Variables Setup
+- Task 2: Set Up Azure Front Door
+  - Task 2.1: Create an Azure Front Door Profile
+  - Task 2.2: Configure Origin Group and Origin
+  - Task 2.3: Create Default Route
+- Task 3: Test the Configuration
+
+## Task 1: Environment Variables Setup
 
 Before starting with Azure Front Door deployment, we need to set up the necessary environment variables. These variables will be used throughout the implementation process.
 
@@ -58,9 +69,9 @@ export NAMESPACE="microsweeper-ex"
 export APP_SERVICE="microsweeper-appservice" 
 ```
 
-## Set Up Azure Front Door
+## Task 2: Set Up Azure Front Door
 
-### Create an Azure Front Door Profile
+### Task 2.1: Create an Azure Front Door Profile
 
 ```bash
 # Create Front Door profile (Standard tier recommended for WAF capabilities)
@@ -68,14 +79,18 @@ az afd profile create \
     --profile-name "$FRONTDOOR_NAME" \
     --resource-group "$AZ_RG" \
     --sku Standard_AzureFrontDoor
+```
 
+```
 # Create endpoint
 az afd endpoint create \
     --endpoint-name "$ENDPOINT_NAME" \
     --profile-name "$FRONTDOOR_NAME" \
     --resource-group "$AZ_RG" \
     --enabled-state Enabled
+```
 
+```
 # Get the endpoint hostname
 export DEFAULT_ENDPOINT_HOST=$(az afd endpoint show \
     --endpoint-name "$ENDPOINT_NAME" \
@@ -84,7 +99,7 @@ export DEFAULT_ENDPOINT_HOST=$(az afd endpoint show \
     --query hostName -o tsv)
 ```
 
-### Configure Origin Group and Origin
+### Task 2.2: Configure Origin Group and Origin
 
 ```bash
 # Create Origin group 
@@ -99,7 +114,9 @@ az afd origin-group create \
     --sample-size 4 \
     --successful-samples-required 3 \
     --additional-latency-in-milliseconds 50
+```
 
+```
 # Create Origin
 az afd origin create \
     --origin-name "aro-app-origin" \
@@ -113,7 +130,9 @@ az afd origin create \
     --priority 1 \
     --weight 1000 \
     --enabled-state Enabled
+```
 
+```
 # Display origin information
 az afd origin show \
     --origin-name "aro-app-origin" \
@@ -123,7 +142,7 @@ az afd origin show \
     --output table
 ```
 
-### Create Default Route
+### Task 2.3: Create Default Route
 
 ```bash
 # Create a route with the default endpoint domain
@@ -138,7 +157,9 @@ az afd route create \
     --supported-protocols Http Https \
     --link-to-default-domain Enabled \
     --patterns "/*"
+```
 
+```
 # Display route information
 az afd route show \
     --route-name aro-app-route \
@@ -148,7 +169,7 @@ az afd route show \
     --output table
 ```
 
-## Testing the Configuration
+## Task 3: Test the Configuration
 
 Run the below command to fetch the Azure front door endpoint and access it through the web browser to view the application. Access the web application using `HTTP/8080` port.
 
