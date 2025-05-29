@@ -2,7 +2,7 @@
 
 ### Estimated Duration: 60 mins
 
-It's time for us to put our cluster to work and deploy a workload. We're going to build an example Java application, [microsweeper](https://github.com/redhat-mw-demos/microsweeper-quarkus/tree/ARO), using [Quarkus](https://quarkus.io/) (a Kubernetes Native Java stack) and [Azure Database for PostgreSQL](https://azure.microsoft.com/en-us/products/postgresql/). We'll then deploy the application to our Azure Red Hat OpenShift cluster, connect to the database using Azure Private Link, and automate the deployment with OpenShift Pipelines.
+It's time for us to put our cluster to work and deploy a workload. In this lab, you're going to build an example Java application, [microsweeper](https://github.com/redhat-mw-demos/microsweeper-quarkus/tree/ARO), using [Quarkus](https://quarkus.io/) (a Kubernetes Native Java stack) and [Azure Database for PostgreSQL](https://azure.microsoft.com/en-us/products/postgresql/) and then connect to your Azure Red Hat OpenShift cluster.
 
 ## Lab Objectives
 
