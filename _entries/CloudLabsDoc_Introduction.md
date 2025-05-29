@@ -10,11 +10,9 @@ Azure Red Hat OpenShift is a fully managed Red Hat OpenShift service in Azure th
 
 This lab is designed to equip participants with hands-on experience in insights on Azure Red Hat OpenShift Cluster. By completing this lab, participants will learn to:
 
-- Creating a project on the Azure Red Hat OpenShift Web Console.
-- Deploying a MongoDB container that uses Azure Disks for persistent storage.
-- Deploying a Node JS API and frontend app from Git Hub using Source-To-Image (S2I).
-- Exposing the web application frontend using Routes.
-- Creating a network policy to control communication between the different tiers in the application.
+- **Go Microservices:** Deploy a containerized Go-based microservices application on Azure Red Hat OpenShift (ARO) using MongoDB for persistent storage.
+- **Build a Java Application with a PostgreSQL Azure DB:** Develop and deploy a Java application on ARO that connects to Azure Database for PostgreSQL, utilizing Source-to-Image (S2I) for containerization.
+- **Azure Front Door Integration with Azure Red Hat OpenShift (ARO):** Configure Azure Front Door to securely expose and load-balance applications hosted on ARO, ensuring high availability and performance.
 
 You'll be doing the majority of the labs using the OpenShift CLI, but you can also accomplish them using the Azure Red Hat OpenShift web console.
 
@@ -49,10 +47,12 @@ The architecture for this lab involves several key components:
 - **Azure Load Balancer:** Distributes incoming network traffic across multiple servers to ensure high availability and reliability of applications running in the OpenShift cluster.
 - **Master Nodes:** The control plane components in the ARO cluster responsible for managing and orchestrating the worker nodes and overall cluster state.
 - **Worker Nodes:** The compute resources in the ARO cluster that run application containers and provide the processing power required for the workloads.
+- **Azure PostgreSQL Flexible Server:** Provides a managed, scalable PostgreSQL database backend for the Java application deployed on Azure Red Hat OpenShift.
+- **Azure Front Door:** Acts as a global, secure entry point that routes and load-balances external traffic to the frontend application running on Azure Red Hat OpenShift.
 
 ## Getting Started with Your Lab Environment
  
-Welcome to your Azure RedHat OpenShift Workshop! We've prepared a seamless environment for you to explore and learn about Azure services. Let's begin by making the most of this experience.
+Welcome to your Azure Red Hat OpenShift Workshop! We've prepared a seamless environment for you to explore and learn about Azure services. Let's begin by making the most of this experience.
  
 ## Accessing Your Lab Environment
  
