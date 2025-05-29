@@ -101,7 +101,9 @@ You will be able to complete the following tasks:
      --rule-name "AllowAllAzureIPs" \
      --start-ip-address 0.0.0.0 \
      --end-ip-address 0.0.0.0
+   ```
 
+   ```
    # Create a database
    az postgres flexible-server db create \
      --resource-group "openshift" \
