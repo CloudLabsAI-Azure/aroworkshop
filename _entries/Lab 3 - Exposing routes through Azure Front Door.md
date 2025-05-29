@@ -1,5 +1,7 @@
 # Lab 3 - Azure Front Door Integration with Azure Red Hat OpenShift (ARO)
 
+### Estimated Duration: 30 mins
+
 In this lab, you'll learn how to expose applications running on an Azure Red Hat OpenShift (ARO) cluster using Azure Front Door.
 
 ## Overview
