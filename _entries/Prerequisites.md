@@ -1,6 +1,18 @@
 # Prerequisites
 
+### Estimated Duration: 15 minutes
+
+## Prerequisites Objectives
+
+You will be able to complete the following tasks:
+
+- Task 1: Setup Azure Cloud Shell
+- Task 2: Install OpenShift CLI (oc)
+- Task 3: GitHub Account
+
 ## Task 1: Setup Azure Cloud Shell
+
+Azure Cloud Shell provides a browser-based command-line environment with pre-installed Azure tools. This lab uses Cloud Shell to run OpenShift CLI (oc) commands without needing local installations.
 
 You can use the Azure Cloud Shell accessible at <https://shell.azure.com> once you login with an Azure subscription.
 
@@ -36,6 +48,8 @@ Head over to <https://shell.azure.com> and sign in with your Azure Subscription 
 
 ## Task 2: Install OpenShift CLI (oc)
 
+The OpenShift CLI (oc) must be installed in the Azure Cloud Shell environment to interact with the Azure Red Hat OpenShift (ARO) cluster, manage resources, and deploy workloads through command-line operations.
+
 You'll need to download the **latest OpenShift CLI (oc)** client tools for OpenShift 4. You can follow the steps below on the Azure Cloud Shell.
 
 Please run following commands on Azure Cloud Shell to download and setup the OpenShift client.
@@ -62,7 +76,11 @@ In case you want to work from your own operating system, here are the links to t
 
 ## Task 3: GitHub Account
 
-You'll need a personal GitHub account. You can sign up for free [here](https://github.com/join).
+A GitHub account is required to access and clone the Rating API web application repository. This app will be deployed on the ARO cluster using MongoDB pods and managed via the ARO web console.
+
+You'll need a personal GitHub account. If not signed-up already then, you can sign up for free [here](https://github.com/join).
+
+### You are all setup with the prerequisites!
 
 -----
 
@@ -163,4 +181,4 @@ See here for more details: [https://docs.openshift.com/aro/4/openshift_images/im
 | Network Configuration | No additional network setup | Requires proper VNet and subnet configuration |
 | DNS Requirements | Direct DNS to public endpoints | DNS to Front Door endpoints only |
 
-## You are all setup with the prerequisites!
+### You have successfully completed setting up the prerequisites. Click on **Next>>** to proceed with the next lab.
