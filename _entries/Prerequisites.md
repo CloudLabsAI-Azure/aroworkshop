@@ -181,4 +181,12 @@ See here for more details: [https://docs.openshift.com/aro/4/openshift_images/im
 | Network Configuration | No additional network setup | Requires proper VNet and subnet configuration |
 | DNS Requirements | Direct DNS to public endpoints | DNS to Front Door endpoints only |
 
+## Summary 
+
+In this prerequisites section, you completed the following tasks:
+
+- Setup Azure Cloud Shell
+- Installed OpenShift CLI (oc)
+- Setup your personal GitHub Account
+
 ### You have successfully completed setting up the prerequisites. Click on **Next>>** to proceed with the next lab.
