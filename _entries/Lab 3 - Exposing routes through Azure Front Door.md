@@ -75,114 +75,131 @@ export APP_SERVICE="microsweeper-appservice"
 
 ### Task 2.1: Create an Azure Front Door Profile
 
-```bash
-# Create Front Door profile (Standard tier recommended for WAF capabilities)
-az afd profile create \
-    --profile-name "$FRONTDOOR_NAME" \
-    --resource-group "$AZ_RG" \
-    --sku Standard_AzureFrontDoor
-```
+In this task, you will create a Front Door profile to manage your global routing configuration.
 
-```
-# Create endpoint
-az afd endpoint create \
-    --endpoint-name "$ENDPOINT_NAME" \
-    --profile-name "$FRONTDOOR_NAME" \
-    --resource-group "$AZ_RG" \
-    --enabled-state Enabled
-```
+1. Create the Azure Front Door service.
 
-```
-# Get the endpoint hostname
-export DEFAULT_ENDPOINT_HOST=$(az afd endpoint show \
-    --endpoint-name "$ENDPOINT_NAME" \
-    --profile-name "$FRONTDOOR_NAME" \
-    --resource-group "$AZ_RG" \
-    --query hostName -o tsv)
-```
+   ```bash
+   az afd profile create \
+      --profile-name "$FRONTDOOR_NAME" \
+      --resource-group "$AZ_RG" \
+      --sku Standard_AzureFrontDoor
+   ```
+
+1. Create the endpoint.
+
+   ```
+   az afd endpoint create \
+      --endpoint-name "$ENDPOINT_NAME" \
+      --profile-name "$FRONTDOOR_NAME" \
+      --resource-group "$AZ_RG" \
+      --enabled-state Enabled
+   ```
+
+1. Get the endpoint hostname.
+
+   ```
+   export DEFAULT_ENDPOINT_HOST=$(az afd endpoint show \
+      --endpoint-name "$ENDPOINT_NAME" \
+      --profile-name "$FRONTDOOR_NAME" \
+      --resource-group "$AZ_RG" \
+      --query hostName -o tsv)
+   ```
 
 ### Task 2.2: Configure Origin Group and Origin
 
-```bash
-# Create Origin group 
-az afd origin-group create \
-    --origin-group-name "$ORIGIN_GROUP" \
-    --profile-name "$FRONTDOOR_NAME" \
-    --resource-group "$AZ_RG" \
-    --probe-request-type GET \
-    --probe-protocol Http \
-    --probe-path "/" \
-    --probe-interval-in-seconds 30 \
-    --sample-size 4 \
-    --successful-samples-required 3 \
-    --additional-latency-in-milliseconds 50
-```
+In this task, you will set up an origin group and define the backend origin that Azure Front Door will route traffic to.
 
-```
-# Create Origin
-az afd origin create \
-    --origin-name "aro-app-origin" \
-    --origin-group-name "$ORIGIN_GROUP" \
-    --profile-name "$FRONTDOOR_NAME" \
-    --resource-group "$AZ_RG" \
-    --host-name "$PUBLIC_ROUTE_HOST" \
-    --origin-host-header "$PUBLIC_ROUTE_HOST" \
-    --http-port 80 \
-    --https-port 443 \
-    --priority 1 \
-    --weight 1000 \
-    --enabled-state Enabled
-```
+1. Create the origin group.
 
-```
-# Display origin information
-az afd origin show \
-    --origin-name "aro-app-origin" \
-    --origin-group-name "$ORIGIN_GROUP" \
-    --profile-name "$FRONTDOOR_NAME" \
-    --resource-group "$AZ_RG" \
-    --output table
-```
+   ```bash
+   az afd origin-group create \
+      --origin-group-name "$ORIGIN_GROUP" \
+      --profile-name "$FRONTDOOR_NAME" \
+      --resource-group "$AZ_RG" \
+      --probe-request-type GET \
+      --probe-protocol Http \
+      --probe-path "/" \
+      --probe-interval-in-seconds 30 \
+      --sample-size 4 \
+      --successful-samples-required 3 \
+      --additional-latency-in-milliseconds 50
+   ```
+
+1. Create the origin.
+
+   ```
+   az afd origin create \
+      --origin-name "aro-app-origin" \
+      --origin-group-name "$ORIGIN_GROUP" \
+      --profile-name "$FRONTDOOR_NAME" \
+      --resource-group "$AZ_RG" \
+      --host-name "$PUBLIC_ROUTE_HOST" \
+      --origin-host-header "$PUBLIC_ROUTE_HOST" \
+      --http-port 80 \
+      --https-port 443 \
+      --priority 1 \
+      --weight 1000 \
+      --enabled-state Enabled
+   ```
+
+1. Display the origin information.
+
+   ```
+   az afd origin show \
+      --origin-name "aro-app-origin" \
+      --origin-group-name "$ORIGIN_GROUP" \
+      --profile-name "$FRONTDOOR_NAME" \
+      --resource-group "$AZ_RG" \
+      --output table
+   ```
 
 ### Task 2.3: Create Default Route
 
-```bash
-# Create a route with the default endpoint domain
-az afd route create \
-    --route-name aro-app-route \
-    --profile-name "$FRONTDOOR_NAME" \
-    --resource-group "$AZ_RG" \
-    --endpoint-name "$ENDPOINT_NAME" \
-    --origin-group "$ORIGIN_GROUP" \
-    --https-redirect disabled \
-    --forwarding-protocol MatchRequest \
-    --supported-protocols Http Https \
-    --link-to-default-domain Enabled \
-    --patterns "/*"
-```
+In this task, you will create a default route to link your frontend endpoint with the backend origin group.
 
-```
-# Display route information
-az afd route show \
-    --route-name aro-app-route \
-    --profile-name "$FRONTDOOR_NAME" \
-    --endpoint-name "$ENDPOINT_NAME" \
-    --resource-group "$AZ_RG" \
-    --output table
-```
+1. Create a route with the default endpoint domain.
+
+   ```bash
+   az afd route create \
+      --route-name aro-app-route \
+      --profile-name "$FRONTDOOR_NAME" \
+      --resource-group "$AZ_RG" \
+      --endpoint-name "$ENDPOINT_NAME" \
+      --origin-group "$ORIGIN_GROUP" \
+      --https-redirect disabled \
+      --forwarding-protocol MatchRequest \
+      --supported-protocols Http Https \
+      --link-to-default-domain Enabled \
+      --patterns "/*"
+   ```
+
+1. Display the route information.
+
+   ```
+   az afd route show \
+      --route-name aro-app-route \
+      --profile-name "$FRONTDOOR_NAME" \
+      --endpoint-name "$ENDPOINT_NAME" \
+      --resource-group "$AZ_RG" \
+      --output table
+   ```
 
 ## Task 3: Test the Configuration
 
-Run the below command to fetch the Azure front door endpoint and access it through the web browser to view the application. Access the web application using `HTTP/8080` port.
+In this task, you will verify the Azure Front Door setup by accessing the application through its frontend URL.
 
-```bash
-echo $DEFAULT_ENDPOINT_HOST
-```
+1. Run the below command to fetch the Azure front door endpoint and access it through the web browser to view the application. Access the web application using `HTTP/8080` port.
 
-When visiting your custom domain in a browser, you should see:
-1. A secure connection (HTTPS)
-2. Your application loading successfully
-3. Traffic routed through Azure Front Door (visible in DNS lookup as references to *.azurefd.net and *.t-msedge.net)
+   ```bash
+   echo $DEFAULT_ENDPOINT_HOST
+   ```
+
+1. When visiting your custom domain in a browser, you should see:
+
+   - A HTTP connection
+   - Your application loading successfully
+   - Traffic routed through Azure Front Door
 
 ## Benefits of This Approach
 
