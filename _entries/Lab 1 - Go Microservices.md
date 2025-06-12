@@ -4,6 +4,8 @@
 
 Microservices is an architectural style where applications are composed of small, independently deployable services that communicate over a network. Each service focuses on a specific business function, allowing for scalability, flexibility, and easier maintenance. Microservices enhance development speed and resilience by enabling teams to work on individual components without affecting the entire system. Now that you have your environment provisioned and the prerequisites fulfilled, it is time to start working on the labs.
 
+Go is a fast, simple, and efficient programming language by Google, ideal for building scalable, cloud-native applications. With features like goroutines for concurrency, strong typing, and powerful built-in tools, Go enables rapid development and deployment. In the ARO lab, it’s used to build and containerize microservices with MongoDB integration, showcasing its strengths in cloud and microservice environments.
+
 ## Lab Objectives
 
 You will be able to complete the following tasks:
