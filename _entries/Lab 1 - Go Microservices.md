@@ -8,7 +8,7 @@ Microservices is an architectural style where applications are composed of small
 
 You will be able to complete the following tasks:
 
-- Task 1: Application Overview
+- Task 1: Application Overview (READ-ONLY)
 - Task 2: Connect to the cluster
 - Task 3: Create Project
 - Task 4: Deploy MongoDB
@@ -18,23 +18,25 @@ You will be able to complete the following tasks:
 
 ## Task 1: Application Overview (READ-ONLY)
 
-You will be deploying a ratings application on Azure Red Hat OpenShift.
+1. You will be deploying a ratings application on Azure Red Hat OpenShift.
 
-![Application diagram](../media/app-overview.png)
+   ![Application diagram](../media/app-overview.png)
 
-The application consists of 3 components:
+1. The application consists of 3 components:
 
-| Component                                          | Link                                                               |
-|----------------------------------------------------|--------------------------------------------------------------------|
-| A public facing API `rating-api`                   | [GitHub repo](https://github.com/MicrosoftDocs/mslearn-aks-workshop-ratings-api)             |
-| A public facing web frontend `rating-web`          | [GitHub repo](https://github.com/MicrosoftDocs/mslearn-aks-workshop-ratings-web)             |
-| A MongoDB with pre-loaded data                     | [Data](https://github.com/microsoft/rating-api/raw/master/data.tar.gz)   |
+   | Component                                          | Link                                                                  |
+   |----------------------------------------------------|--------------------------------------------------------------------   |
+   | A public facing API `rating-api`                   | [GitHub repo](https://github.com/MicrosoftDocs/mslearn-aks-workshop-ratings-api)             |
+   | A public facing web frontend `rating-web`          | [GitHub repo](https://github.com/MicrosoftDocs/mslearn-aks-workshop-ratings-web)             |
+   | A MongoDB with pre-loaded data                     | [Data](https://github.com/microsoft/rating-api/raw/master/data.tar.gz)   |
 
-Once you're done, you'll have an experience similar to the below.
+1. Once you're done, you'll have an experience similar to the below.
 
-![Application](../media/app-overview-1.png)
-![Application](../media/app-overview-2.png)
-![Application](../media/app-overview-3.png)
+   ![Application](../media/app-overview-1.png)
+
+   ![Application](../media/app-overview-2.png)
+
+   ![Application](../media/app-overview-3.png)
 
 ## Task 2: Connect to the cluster
 
@@ -535,40 +537,40 @@ Now that you have the application working, it is time to apply some security har
 
 ### Switch to the Cluster Console
 
-Switch to the Administrator console.
-![Switch to the Administrator console](../media/switch-to-admin-console.png)
+1. Switch to the Administrator console.
 
-Make sure you're in the **workshop** project, expand **Networking**, select **NetwokPolicies** and click **Create Network Policy**.
-![Cluster console page](../media/cluster-console.png)
+   ![Switch to the Administrator console](../media/switch-to-admin-console.png)
+
+1. Make sure you're in the **workshop** project, expand **Networking**, select **NetwokPolicies** and click **Create Network Policy**.
+
+   ![Cluster console page](../media/cluster-console.png)
 
 ### Create network policy
 
-You will create a policy that applies to any pod matching the `app=rating-api` label. The policy will allow ingress only from pods matching the `app=rating-web` label.
+1. You will create a policy that applies to any pod matching the `app=rating-api` label. The policy will allow ingress only from pods matching the `app=rating-web` label.
 
-Use the YAML below in the editor, and make sure you're targeting the **workshop** project.
+1. Use the YAML below in the editor, and make sure you're targeting the **workshop** project.
 
-```yaml
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
-metadata:
-  name: api-allow-from-web
-  namespace: workshop
-spec:
-  podSelector:
-    matchLabels:
-      app: rating-api
-  ingress:
-    - from:
-        - podSelector:
-            matchLabels:
-              app: rating-web
-```
+   ```yaml
+   apiVersion: networking.k8s.io/v1
+   kind: NetworkPolicy
+   metadata:
+     name: api-allow-from-web
+     namespace: workshop
+   spec:
+     podSelector:
+       matchLabels:
+         app: rating-api
+     ingress:
+       - from:
+           - podSelector:
+               matchLabels:
+                 app: rating-web
+   ```
 
-![Create network policy](../media/create-networkpolicy.png)
+   ![Create network policy](../media/create-networkpolicy.png)
 
-Click **Create**.
-
-[ARO Documentation - Managing Networking with Network Policy](https://docs.openshift.com/aro/4/networking/network_policy/creating-network-policy.html)
+1. Click **Create**.
 
 ## Reference Links
 
