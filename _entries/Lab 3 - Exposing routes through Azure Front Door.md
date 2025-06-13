@@ -208,14 +208,18 @@ In this task, you will verify the Azure Front Door setup by accessing the applic
 - **Scalability**: Front Door automatically scales with traffic demands
 - **Traffic Management**: Load balancing and health probes ensure high availability
 
-## Summary
-
-Integrating Azure Front Door with your ARO cluster provides a secure, high-performance way to expose your applications globally while maintaining control over your infrastructure. Whether using a public or private cluster, Front Door offers significant benefits for production workloads.
-
 ## Additional Resources
 
 - [Azure Front Door Documentation](https://learn.microsoft.com/en-us/azure/frontdoor/)
 - [ARO Documentation](https://learn.microsoft.com/en-us/azure/openshift/)
 - [OpenShift Networking Documentation](https://docs.openshift.com/container-platform/latest/networking/understanding-networking.html)
+
+## Summary
+
+In this lab, you completed the following tasks:
+
+- Setup the environment variables
+- Set Up Azure Front Door
+- Tested the Azure Front Door configuration
 
 ### You have successfully completed the lab.
