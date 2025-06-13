@@ -20,7 +20,7 @@ You will be able to complete the following tasks:
 
 ## Task 1: Application Overview (READ-ONLY)
 
-1. You will be deploying a ratings application on Azure Red Hat OpenShift.
+1. You will explore the deployment of a ratings application on Azure Red Hat OpenShift.
 
    ![Application diagram](../media/app-overview.png)
 
@@ -583,7 +583,7 @@ Now that you have the application working, it is time to apply some security har
 - [Network policy](https://docs.openshift.com/aro/4/networking/network_policy/about-network-policy.html)
 - [ARO Documentation - Managing Networking with Network Policy](https://docs.openshift.com/aro/4/networking/network_policy/creating-network-policy.html)
 
-## Summary 
+## Review
 
 In this lab, you completed the following tasks:
 
