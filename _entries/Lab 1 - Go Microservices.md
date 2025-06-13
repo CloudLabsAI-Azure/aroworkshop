@@ -599,6 +599,8 @@ Now that you have the application working, it is time to apply some security har
 
 ## Review
 
+Deployed a containerized Go-based microservices application on Azure Red Hat OpenShift (ARO), using MongoDB to manage persistent data storage.
+
 In this lab, you completed the following tasks:
 
 - Read through the Application Overview
