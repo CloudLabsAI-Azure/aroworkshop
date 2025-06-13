@@ -1,6 +1,6 @@
 # Lab 1 - Go Microservices
 
-### Estimated Duration: 90 mins
+### Estimated Duration: 90 minutes
 
 Microservices is an architectural style where applications are composed of small, independently deployable services that communicate over a network. Each service focuses on a specific business function, allowing for scalability, flexibility, and easier maintenance. Microservices enhance development speed and resilience by enabling teams to work on individual components without affecting the entire system. Now that you have your environment provisioned and the prerequisites fulfilled, it is time to start working on the labs.
 
