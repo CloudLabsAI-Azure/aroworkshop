@@ -214,7 +214,7 @@ In this task, you will verify the Azure Front Door setup by accessing the applic
 - [ARO Documentation](https://learn.microsoft.com/en-us/azure/openshift/)
 - [OpenShift Networking Documentation](https://docs.openshift.com/container-platform/latest/networking/understanding-networking.html)
 
-## Summary
+## Review
 
 In this lab, you completed the following tasks:
 
