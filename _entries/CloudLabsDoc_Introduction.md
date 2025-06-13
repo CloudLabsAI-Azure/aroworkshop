@@ -31,7 +31,7 @@ Participants should have:
 
 This lab manifests integrating ARO with several Azure services such as Azure Front Door + WAF for securely handling ingress traffic, Firewall for inspecting egress traffic to avoid data exfiltration, and Azure Active Directory for Role Based Access Control and so on.  Also, provides several recommended best practices for ARO deployment, from Networking best practices that supports multi-region growth, on-boarding the cluster on to Arc and enabling Container Insights to monitor the cluster and workload.
 
-## Architecture Diagram
+## Azure Red Hat OpenShift Architecture
 
 ![](../media/ARO-arch-diagram.png)
 
