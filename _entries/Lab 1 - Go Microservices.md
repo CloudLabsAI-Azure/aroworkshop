@@ -22,6 +22,8 @@ You will be able to complete the following tasks:
 
 ## Task 1: Application Overview (READ-ONLY)
 
+In this task, you will explore the components of the rating application on Azure Red Hat OpenShift cluster and view the experience once comleting the lab.
+
 1. You will explore the deployment of a ratings application on Azure Red Hat OpenShift.
 
    ![Application diagram](../media/app-overview.png)
@@ -44,7 +46,7 @@ You will be able to complete the following tasks:
 
 ## Task 2: Connect to the cluster
 
-You can log into the cluster using the `kubeadmin` user.  
+In this task, you will log into the cluster using the `kubeadmin` user.  
 
 1. Run the following command on **Azure Cloud Shell** to find the password for the `kubeadmin` user. 
    - Replace $CLUSTER_NAME with **ARO<inject key="Deployment ID" enableCopy="false"/>** (your OpenShift cluster name)
@@ -70,6 +72,8 @@ You can log into the cluster using the `kubeadmin` user.
 3. **Save** these secrets in a notepad, you are going to use them to connect to the Web Portal.
 
 ## Task 3: Create Project
+
+In this task, you will login to the web console, retrieve the login command and token and create a project.
 
 ### Login to the web console
 
@@ -130,6 +134,8 @@ A project allows a community of users to organize and manage their content in is
 
 ## Task 4: Deploy MongoDB
 
+In this task, you will create mongoDB from Docker hub, verify if the mongoDB pod was created successfully and retrieve mongoDB service hostname
+
 ### Create mongoDB from Docker hub
 
 Azure Red Hat OpenShift allows you to deploy a container image from Docker hub easily and we will deploy a MongoDB database service this way. The mandatory environment variables (user, password, database name etc.) can be passed in the ``oc new-app`` command line
@@ -186,6 +192,8 @@ Azure Red Hat OpenShift allows you to deploy a container image from Docker hub e
    ![MongoDB service in the Web Console](../media/mongo-svc-webconsole.png)
 
 ## Task 5: Deploy Ratings API
+
+In this task, you will fork the application to your own GitHub repository, use the OpenShift CLI to deploy the `rating-api`, configure the required environment variables, verify that the service is running, load data into Mongodb database, retrieve `rating-api` service hostname, setup GitHub webhook and update rating-api Target Port.
 
 The `rating-api` is a NodeJS application that connects to mongoDB to retrieve and rate items. Below are some of the details that you'll need to deploy this.
 
@@ -357,6 +365,8 @@ For that, in the deployment's details screen, click on *Pods* tab, then on one o
    ![](../media/rating-api-edited.png)
 
 ## Task 6: Deploy Ratings frontend
+
+In this task, you will fork the application to your own GitHub repository, modify Dockerfile in your repository, use the OpenShift CLI to deploy the `rating-web`, configure the required environment variables, expose the `rating-web` service using a Route, try the service, setup GitHub webhook and make a change to the website app and see the rolling update.
 
 The `rating-web` is a NodeJS application that connects to the `rating-api`. Below are some of the details that you'll need to deploy this.
 
@@ -536,6 +546,8 @@ Now, whenever you push a change to your GitHub repository, a new build will auto
 > * [ARO Documentation - Triggering builds](https://docs.openshift.com/aro/4/builds/triggering-builds-build-hooks.html)
 
 ## Task 7: Create Network Policy
+
+In this task, you will switch to the Cluster Console and create a network policy.
 
 Now that you have the application working, it is time to apply some security hardening. You'll use [network policies](https://docs.openshift.com/aro/4/networking/network_policy/about-network-policy.html) to restrict communication to the `rating-api`.
 
