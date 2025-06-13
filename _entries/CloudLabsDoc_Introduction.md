@@ -45,7 +45,7 @@ This lab manifests integrating ARO with several Azure services such as Azure Fro
 
 ### Architecture Diagram - Lab 3 - Azure Front Door Integration with Azure Red Hat OpenShift (ARO)
 
-![ARO + Azure Front Door Diagram](../media/lab03-aro-arch-diagram.png)
+![ARO + Azure Front Door Diagram](../media/lab03-aro-arch-diagram-01.png)
 
 ## Explanation of Components
 
