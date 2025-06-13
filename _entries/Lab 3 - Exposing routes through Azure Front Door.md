@@ -12,16 +12,6 @@ Azure Front Door is a global, scalable entry-point that uses the Microsoft globa
 * **Global Edge Access**: Traffic is controlled at Microsoft's edge before entering your Azure environment
 * **Private Infrastructure**: Your ARO cluster and Azure resources can remain private even when services are publicly accessible
 
-## Architecture
-
-![ARO + Azure Front Door Diagram](../media/aro-frontdoor.png)
-
-In this architecture:
-- Azure Front Door sits at the edge of Microsoft's network
-- Traffic is routed through Azure Front Door to your ARO cluster
-- For private clusters, Front Door connects via an Azure Private Link service
-- For public clusters, Front Door can connect directly to public endpoints
-
 ## Prerequisites
 
 - An Azure Red Hat OpenShift (ARO) cluster (public or private)
