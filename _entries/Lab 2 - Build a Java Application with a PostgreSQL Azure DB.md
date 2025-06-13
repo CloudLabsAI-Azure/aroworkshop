@@ -615,6 +615,8 @@ quarkus build --no-tests
 
 ## Review
 
+Developed and deployed a Java application on ARO that connected to an Azure Database for PostgreSQL, utilizing Source-to-Image (S2I) to automate the containerization process.
+
 In this lab, you completed the following tasks:
 
 - Created a Azure Database for PostgreSQL instance
