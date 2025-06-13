@@ -611,7 +611,7 @@ quarkus build --no-tests
 - The Quarkus CLI delegates to Maven for most build operations
 - Maven wrapper (`./mvnw`) is the recommended approach for project portabilit
 
-## Summary
+## Review
 
 In this lab, you completed the following tasks:
 
