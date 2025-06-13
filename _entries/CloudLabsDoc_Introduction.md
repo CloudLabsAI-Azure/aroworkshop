@@ -41,11 +41,11 @@ This lab manifests integrating ARO with several Azure services such as Azure Fro
 
 ### Architecture Diagram - Lab 2 - Build a Java Application with a PostgreSQL Azure DB
 
-![](../media/aro-lab-02-architecture.webp)
+![](../media/lab02-aro-arch-diagram.png)
 
 ### Architecture Diagram - Lab 3 - Azure Front Door Integration with Azure Red Hat OpenShift (ARO)
 
-![ARO + Azure Front Door Diagram](../media/aro-frontdoor.png)
+![ARO + Azure Front Door Diagram](../media/lab03-aro-arch-diagram.png)
 
 ## Explanation of Components
 
