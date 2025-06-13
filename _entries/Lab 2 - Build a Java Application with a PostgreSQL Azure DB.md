@@ -271,7 +271,7 @@ In this task, you will validate that the Microsweeper app is running correctly b
 
 ## Task 4: Review the runs in console (READ-ONLY)
 
-Let's take a look at what this command did, along with everything that was created in your cluster. Return to your tab with the OpenShift Web Console. If you need to reauthenticate, follow the steps in the [Access Your Cluster](../100-setup/3-access-cluster/) section.
+Let's take a look at what this command did, along with everything that was created in your cluster. Return to your tab with the OpenShift Web Console.
 
 ### Container Images
 
