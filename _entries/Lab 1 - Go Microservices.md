@@ -585,6 +585,14 @@ Now that you have the application working, it is time to apply some security har
 
 ## Summary 
 
-You'll complete tasks including an application overview, creating a project, deploying MongoDB, the Ratings API and frontend, and establishing a network policy for secure communication.
+In this lab, you completed the following tasks:
+
+- Read through the Application Overview
+- Connected to the OpenShift cluster
+- Created a Project
+- Deployed MongoDB
+- Deployed Ratings API
+- Deployed Ratings frontend
+- Created Network Policy for secure communication
 
 ### You have successfully completed the lab. Click on **Next>>** to proceed with the next lab.
