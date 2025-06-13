@@ -206,6 +206,8 @@ In this task, you will verify the Azure Front Door setup by accessing the applic
 
 ## Review
 
+Configured Azure Front Door to expose and load-balance applications hosted on ARO, enhancing performance, availability, and secure access over the internet.
+
 In this lab, you completed the following tasks:
 
 - Setup the environment variables
