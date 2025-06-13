@@ -611,4 +611,13 @@ quarkus build --no-tests
 - The Quarkus CLI delegates to Maven for most build operations
 - Maven wrapper (`./mvnw`) is the recommended approach for project portabilit
 
+## Summary
+
+In this lab, you completed the following tasks:
+
+- Created a Azure Database for PostgreSQL instance
+- Built and deployed the Microsweeper app
+- Tested the Application
+- Reviewed the runs in the OpenShift console
+
 ### You have successfully completed the lab. Click on **Next>>** to proceed with the next lab.
